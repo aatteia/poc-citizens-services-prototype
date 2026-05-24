@@ -62,7 +62,7 @@ export default function EligibleResult() {
       <div className="page__grid">
         <SideRail
           parentLabel="Families"
-          parentHref="/"
+          parentHref="#"
           items={familyPayments}
           ariaLabel="Family payments"
         />

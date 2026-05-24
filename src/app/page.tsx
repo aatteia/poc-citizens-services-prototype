@@ -42,7 +42,8 @@ export default function OverviewPage() {
             <p className="page__intro">
               Parenting Payment is income support for the main carer of a young
               child. Use this short check to see if you may be eligible — it
-              takes about two minutes and your answers aren&rsquo;t saved.
+              takes about two minutes and your answers won&rsquo;t be kept once
+              you close this tab.
             </p>
 
             <div className="page__cta-row">

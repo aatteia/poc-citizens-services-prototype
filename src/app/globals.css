@@ -1571,7 +1571,12 @@ html[data-theme="sa"].dark {
   }
   .result__heading:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; border-radius: 4px; }
 
-  .result__section { display: flex; flex-direction: column; gap: 12px; }
+  .result__section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scroll-margin-top: calc(var(--header-height) + 16px); /* clear sticky header on anchor jumps */
+  }
   .result__section-title {
     font-family: var(--font-heading);
     font-weight: 700;
@@ -1856,6 +1861,13 @@ html[data-theme="sa"].dark {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
   }
+  .page-rating__thanks {
+    margin: 16px 0 0;
+    font-size: 15px;
+    line-height: 22px;
+    color: var(--success-600);
+    font-weight: 600;
+  }
   .page-rating__label {
     font-size: 12px;
     line-height: 16px;
@@ -1900,7 +1912,10 @@ html[data-theme="sa"].dark {
     background: var(--secondary);
     color: var(--primary);
   }
-  @media (max-width: 768px) {
+  /* Hide below the width at which the 1280px container's right edge
+     would overlap the toolrail icons (container right edge ≈ (viewport - 1280)/2,
+     toolrail ≈ 52px wide at right: 12px → no overlap when viewport ≥ 1360px). */
+  @media (max-width: 1360px) {
     .tool-rail { display: none; }
   }
 

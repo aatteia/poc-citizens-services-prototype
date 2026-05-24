@@ -9,7 +9,7 @@ import { ThemeToggle } from "@/components/layout/theme-toggle";
  *   row 1 (cyan):    wordmark  |  theme toggle · search · myGov · Sign in
  *                                  "Create account · Online help"
  *   row 2 (white):   primary nav   — Individuals (active) / Health professionals / Businesses / Community groups
- *   row 3 (white-2): secondary nav — Raising kids (active) / Living arrangements / Ageing / Work / Education / Health and disability
+ *   row 3 (white-2): secondary nav — Families (active) / Work / Housing / Health / Carers / Study
  *
  * Search, myGov, Sign in and the nav links are all non-functional href="#"
  * stubs in this prototype — they exist for visual fidelity only.

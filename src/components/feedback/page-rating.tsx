@@ -57,6 +57,11 @@ export function PageRating() {
           );
         })}
       </ul>
+      {selected && (
+        <p className="page-rating__thanks" role="status">
+          Thanks for your feedback.
+        </p>
+      )}
     </section>
   );
 }
