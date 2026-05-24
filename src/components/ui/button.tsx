@@ -18,6 +18,7 @@ const buttonVariants = cva(
     "rounded-[200px] whitespace-nowrap",
     "font-[family-name:var(--font-heading)] font-bold tracking-[0.5px]",
     "border border-transparent",
+    "no-underline hover:no-underline",
     "transition-colors duration-[120ms] ease-linear",
     "cursor-pointer",
     "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--ring)]",
