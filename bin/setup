@@ -1,0 +1,46 @@
+#!/bin/bash
+set -e
+
+PROJECT_NAME=$(basename "$PWD")
+echo "Setting up $PROJECT_NAME..."
+echo ""
+
+# 1. Create .env.local from example if it does not already exist
+if [ ! -f .env.local ]; then
+  cp .env.local.example .env.local
+  echo "✓ Created .env.local from .env.local.example"
+  echo "  → Fill in the values in .env.local before running the dev server"
+else
+  echo "✓ .env.local already exists — skipping"
+fi
+
+# 2. Install dependencies
+echo ""
+echo "Installing dependencies..."
+npm install
+echo "✓ Dependencies installed"
+
+# 3. Generate Prisma client
+echo ""
+echo "Generating Prisma client..."
+npx prisma generate
+echo "✓ Prisma client generated"
+
+# 4. Initialise a git repository if one does not already exist
+echo ""
+if [ ! -d .git ]; then
+  git init
+  git add .
+  git commit -m "Initial commit — $PROJECT_NAME"
+  echo "✓ Git repository initialised with initial commit"
+else
+  echo "✓ Git repository already exists — skipping"
+fi
+
+echo ""
+echo "Setup complete. Next steps:"
+echo "  1. Open .env.local and fill in all values"
+echo "  2. Create a repository on GitHub and push:"
+echo "       git remote add origin <your-github-repo-url>"
+echo "       git push -u origin main"
+echo "  3. Start the build session (see docs/quick-reference.md)"
