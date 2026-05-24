@@ -632,7 +632,9 @@ html[data-theme="sa"].dark {
     text-decoration: none;
   }
   .site-nav-primary__link[aria-current="page"] {
-    border-bottom-color: var(--nav-active);
+    background: var(--primary);
+    color: var(--primary-foreground);
+    border-bottom-color: transparent;
   }
 
   /* ===== Secondary nav (white strip, thinner underline) ===== */
@@ -784,7 +786,7 @@ html[data-theme="sa"].dark {
     padding: 10px 14px;
     background: rgba(255, 255, 255, 0.08);
     border-left: 3px solid var(--warning-500);
-    border-radius: var(--radius-xs);
+    border-radius: 0;
     color: var(--footer-fg);
     font-size: 13px;
     line-height: 18px;
@@ -813,7 +815,6 @@ html[data-theme="sa"].dark {
     display: block;
     height: 56px;
     width: auto;
-    filter: brightness(0) invert(1); /* shows the dark coat-of-arms as white on the navy footer */
   }
   .site-footer__ack-wordmark {
     font-family: var(--font-heading);

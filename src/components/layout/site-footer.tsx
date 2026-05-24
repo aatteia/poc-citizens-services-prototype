@@ -174,7 +174,7 @@ export function SiteFooter() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/australian-government-stacked.svg"
+              src="/australian-government-stacked-white.svg"
               alt=""
               aria-hidden="true"
               width={120}

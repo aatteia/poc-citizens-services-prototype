@@ -29,16 +29,6 @@ const familyPayments = [
 export default function OverviewPage() {
   return (
     <div className="page">
-      <div className="page__breadcrumb">
-        <Breadcrumb
-          items={[
-            { label: "Home", href: "#" },
-            { label: "Families", href: "#" },
-            { label: "Parenting Payment" },
-          ]}
-        />
-      </div>
-
       <div className="page__grid">
         <SideRail
           parentLabel="Families"
@@ -48,6 +38,15 @@ export default function OverviewPage() {
         />
 
         <div className="page__main">
+          <div className="page__breadcrumb">
+            <Breadcrumb
+              items={[
+                { label: "Home", href: "#" },
+                { label: "Families", href: "#" },
+                { label: "Parenting Payment" },
+              ]}
+            />
+          </div>
           <header className="page__hero">
             <p className="page__eyebrow">For families</p>
             <h1 className="page__title">Parenting Payment</h1>
