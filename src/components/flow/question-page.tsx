@@ -8,7 +8,7 @@ import { Breadcrumb } from "@/components/nav/breadcrumb";
 import { InfoCallout } from "@/components/feedback/info-callout";
 import { InlineError } from "@/components/feedback/inline-error";
 import { ProgressIndicator } from "@/components/flow/progress-indicator";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { RadioCard } from "@/components/ui/radio-card";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { evaluate } from "@/lib/eligibility";
@@ -159,7 +159,7 @@ export function QuestionPage({ step }: QuestionPageProps) {
           <div className="flow__actions">
             <Link
               href={backHref}
-              className="flow__back"
+              className={buttonVariants({ variant: "tertiary", size: "lg" })}
               aria-label={backLabel}
             >
               <span aria-hidden="true">←</span> {backLabel}

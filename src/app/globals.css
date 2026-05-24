@@ -537,7 +537,7 @@ html[data-theme="sa"].dark {
     height: 36px;
     padding: 0 14px;
     border: 1px solid var(--header-fg);
-    border-radius: 4px;
+    border-radius: var(--radius-pill);
     background: #FFFFFF;
     color: var(--header-fg);
     font-family: var(--font-sans);
@@ -564,12 +564,13 @@ html[data-theme="sa"].dark {
     height: 36px;
     padding: 0 18px;
     border: 1px solid #000;
-    border-radius: 4px;
+    border-radius: var(--radius-pill);
     background: #000;
     color: #FFF;
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 14px;
+    letter-spacing: 0.5px;
     text-decoration: none;
     cursor: pointer;
   }
@@ -1526,28 +1527,12 @@ html[data-theme="sa"].dark {
     border-top: 1px solid var(--border);
     padding-top: 24px;
   }
-  .flow__back {
-    font-family: var(--font-sans);
-    font-weight: 600;
-    color: var(--fg-link);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 12px 8px;
-    margin-left: -8px; /* compensate so the underline still aligns with content */
-    min-height: 48px;
-    border-radius: var(--radius-xs);
-  }
-  .flow__back:hover { color: var(--fg-link-hover); text-decoration-thickness: 2px; }
-
   @media (max-width: 768px) {
     .flow__heading { font-size: 28px; line-height: 36px; }
     .flow__legend { font-size: 22px; line-height: 30px; }
     .flow__actions { flex-direction: column-reverse; align-items: stretch; }
-    .flow__actions .button-as-link,
-    .flow__actions button { width: 100%; }
+    .flow__actions > a,
+    .flow__actions > button { width: 100%; }
   }
 }
 
