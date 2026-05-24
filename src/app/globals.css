@@ -1560,7 +1560,6 @@ html[data-theme="sa"].dark {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    scroll-margin-top: calc(var(--header-height) + 16px); /* clear sticky header on anchor jumps */
   }
   .result__section-title {
     font-family: var(--font-heading);
@@ -1568,6 +1567,10 @@ html[data-theme="sa"].dark {
     font-size: 22px;
     line-height: 28px;
     margin: 0;
+    /* The id="..." anchor target sits on the <h2>, not the <section>, so the
+       scroll offset has to live here. Matches the homepage's .page__section
+       offset so anchor jumps clear the sticky header. */
+    scroll-margin-top: calc(var(--header-height) + 16px);
   }
   .result__lede {
     font-size: 17px;
