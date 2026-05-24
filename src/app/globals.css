@@ -640,10 +640,12 @@ html[data-theme="sa"].dark {
     color: var(--nav-fg);
     text-decoration: none;
   }
+  /* Primary nav active = audience context only — quiet treatment so the
+     secondary nav's active state is the dominant "you are here" marker.
+     Just bolder text, no background, no underline. */
   .site-nav-primary__link[aria-current="page"] {
-    background: var(--nav-secondary-bg);
+    font-weight: 700;
     color: var(--nav-fg);
-    border-bottom-color: var(--nav-active);
   }
 
   /* ===== Secondary nav (white strip, thinner underline) ===== */
