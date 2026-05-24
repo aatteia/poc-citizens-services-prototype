@@ -292,6 +292,11 @@ html[data-theme="sa"].dark {
   html {
     background: var(--background);
     -webkit-text-size-adjust: 100%;
+    /* Sitewide offset for hash-anchor scrolls so the sticky site header
+       (cyan band + primary nav + secondary nav, ~196px) doesn't cover the
+       target heading. Applied at the scroll container so it works for every
+       anchor regardless of where the id sits (section vs heading). */
+    scroll-padding-top: calc(var(--header-height) + 16px);
   }
   body {
     font-family: var(--font-sans);
@@ -1384,7 +1389,7 @@ html[data-theme="sa"].dark {
 
   .page__section {
     margin-top: 48px;
-    scroll-margin-top: calc(var(--header-height) + 16px); /* offset for sticky header when anchor-jumping */
+    /* anchor offset handled globally via html { scroll-padding-top } */
   }
   .page__section-title {
     font-family: var(--font-heading);
@@ -1567,10 +1572,7 @@ html[data-theme="sa"].dark {
     font-size: 22px;
     line-height: 28px;
     margin: 0;
-    /* The id="..." anchor target sits on the <h2>, not the <section>, so the
-       scroll offset has to live here. Matches the homepage's .page__section
-       offset so anchor jumps clear the sticky header. */
-    scroll-margin-top: calc(var(--header-height) + 16px);
+    /* anchor offset handled globally via html { scroll-padding-top } */
   }
   .result__lede {
     font-size: 17px;
