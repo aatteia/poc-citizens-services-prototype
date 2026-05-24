@@ -33,7 +33,6 @@ export default function OverviewPage() {
         <Breadcrumb
           items={[
             { label: "Home", href: "#" },
-            { label: "Payments and services", href: "#" },
             { label: "Families", href: "#" },
             { label: "Parenting Payment" },
           ]}

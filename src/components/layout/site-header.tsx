@@ -25,12 +25,12 @@ const primaryNav: readonly NavItem[] = [
 ];
 
 const secondaryNav: readonly NavItem[] = [
-  { label: "Raising kids", href: "/", current: true },
-  { label: "Living arrangements", href: "#" },
-  { label: "Ageing", href: "#" },
+  { label: "Families", href: "/", current: true },
   { label: "Work", href: "#" },
-  { label: "Education", href: "#" },
-  { label: "Health and disability", href: "#" },
+  { label: "Housing", href: "#" },
+  { label: "Health", href: "#" },
+  { label: "Carers", href: "#" },
+  { label: "Study", href: "#" },
 ];
 
 export function SiteHeader() {
