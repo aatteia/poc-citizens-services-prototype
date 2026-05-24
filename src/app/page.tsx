@@ -1,7 +1,10 @@
 import Link from "next/link";
 
 import { Breadcrumb } from "@/components/nav/breadcrumb";
+import { SideRail } from "@/components/nav/side-rail";
 import { FactBox, FactBoxItem, FactBoxList } from "@/components/content/fact-box";
+import { PageMeta } from "@/components/content/page-meta";
+import { PageRating } from "@/components/feedback/page-rating";
 import { buttonVariants } from "@/components/ui/button";
 
 const sections = [
@@ -10,6 +13,18 @@ const sections = [
   { id: "how-to-claim", label: "How to claim" },
   { id: "manage", label: "Manage your payment" },
 ] as const;
+
+// Mock sibling-page list for the "Families" section that Parenting Payment
+// sits under. Real Services Australia data — used here for visual fidelity.
+const familyPayments = [
+  { label: "Parenting Payment", href: "/", current: true },
+  { label: "Family Tax Benefit", href: "#" },
+  { label: "Child Care Subsidy", href: "#" },
+  { label: "Paid Parental Leave", href: "#" },
+  { label: "Newborn Upfront Payment and Newborn Supplement", href: "#" },
+  { label: "Dad and Partner Pay", href: "#" },
+  { label: "Stillborn Baby Payment", href: "#" },
+];
 
 export default function OverviewPage() {
   return (
@@ -26,6 +41,13 @@ export default function OverviewPage() {
       </div>
 
       <div className="page__grid">
+        <SideRail
+          parentLabel="Families"
+          parentHref="#"
+          items={familyPayments}
+          ariaLabel="Family payments"
+        />
+
         <div className="page__main">
           <header className="page__hero">
             <p className="page__eyebrow">For families</p>
@@ -126,6 +148,9 @@ export default function OverviewPage() {
               change.
             </p>
           </section>
+
+          <PageRating />
+          <PageMeta lastUpdated="24 May 2026" qcReference="QC 60243" />
         </div>
 
         <aside className="page__sidebar" aria-labelledby="on-this-page">

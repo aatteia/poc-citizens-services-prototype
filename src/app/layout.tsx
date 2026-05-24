@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { ListenBar } from "@/components/layout/listen-bar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { ToolRail } from "@/components/layout/tool-rail";
 import "./globals.css";
 
 const roboto = localFont({
@@ -54,6 +56,16 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${roboto.variable} ${openSans.variable}`}
     >
+      <head>
+        {/* Pre-paint theme application — keeps the dark/light class in sync
+            with the user's stored preference before React hydrates, so the
+            first paint never flashes the wrong palette. Kept tiny on purpose. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('sa-theme');if(t==='dark'){document.documentElement.classList.add('dark');}}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <a href="#main" className="skip-link">
           Skip to main content
@@ -62,6 +74,8 @@ export default function RootLayout({
         <main id="main" tabIndex={-1} className="flex-1">
           {children}
         </main>
+        <ToolRail />
+        <ListenBar />
         <SiteFooter />
       </body>
     </html>

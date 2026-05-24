@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 
 import { Breadcrumb } from "@/components/nav/breadcrumb";
 import { RelatedPaymentCard } from "@/components/content/related-payment-card";
+import { PageMeta } from "@/components/content/page-meta";
+import { PageRating } from "@/components/feedback/page-rating";
 import { StatusBanner } from "@/components/feedback/status-banner";
 import { AnswerSummary } from "@/components/flow/answer-summary";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -135,6 +137,9 @@ export default function IneligibleResult() {
             Start again
           </Button>
         </div>
+
+        <PageRating />
+        <PageMeta lastUpdated="24 May 2026" qcReference="QC 60243" />
       </div>
     </div>
   );

@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 
 import { Breadcrumb } from "@/components/nav/breadcrumb";
 import { FactBox, FactBoxItem, FactBoxList } from "@/components/content/fact-box";
+import { PageMeta } from "@/components/content/page-meta";
+import { PageRating } from "@/components/feedback/page-rating";
 import { StatusBanner } from "@/components/feedback/status-banner";
 import { AnswerSummary } from "@/components/flow/answer-summary";
 import { NextStepsList } from "@/components/flow/next-steps-list";
@@ -137,6 +139,9 @@ export default function EligibleResult() {
             Start again
           </Button>
         </div>
+
+        <PageRating />
+        <PageMeta lastUpdated="24 May 2026" qcReference="QC 60243" />
       </div>
     </div>
   );

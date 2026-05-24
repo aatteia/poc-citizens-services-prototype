@@ -185,6 +185,57 @@ html[data-theme="sa"] {
   /* Footer */
   --footer-bg: #0D2D44;
   --footer-fg: #FFFFFF;
+
+  /* Header — light-cyan band matching servicesaustralia.gov.au (2026 redesign).
+     Navy text on cyan is AAA at 16px+. */
+  --header-bg:       #B8E0EB;
+  --header-fg:       #0D2D44;
+  --header-border:   #6FB6CA;
+  --header-divider:  rgba(13, 45, 68, 0.18);
+
+  /* Nav strips — sit below the cyan band on a white surface */
+  --nav-bg:          #FFFFFF;
+  --nav-fg:          #1A1A1A;
+  --nav-active:      var(--primary);
+  --nav-hover-bg:    #F4F8FC;
+  --nav-secondary-bg:#F8FAFB;
+}
+
+/* ===== Dark-mode token overrides ===== */
+/* Toggle via class="dark" on <html>. The cyan header band intentionally stays
+   the same (matches the official dark mode), as do link colours and the navy
+   footer. Surfaces, body text, borders, and tint backgrounds flip. */
+html[data-theme="sa"].dark {
+  --background:           #0C1116;  --color-background:           #0C1116;
+  --foreground:           #E8EAED;  --color-foreground:           #E8EAED;
+  --card:                 #161B22;  --color-card:                 #161B22;
+  --card-foreground:      #E8EAED;  --color-card-foreground:      #E8EAED;
+  --popover:              #161B22;  --color-popover:              #161B22;
+  --popover-foreground:   #E8EAED;  --color-popover-foreground:   #E8EAED;
+
+  --secondary:            #11324D;  --color-secondary:            #11324D;
+  --secondary-foreground: #DCE9F5;  --color-secondary-foreground: #DCE9F5;
+  --muted:                #1C232C;  --color-muted:                #1C232C;
+  --muted-foreground:     #A8B2BD;  --color-muted-foreground:     #A8B2BD;
+  --accent:               #11324D;  --color-accent:               #11324D;
+  --accent-foreground:    #DCE9F5;  --color-accent-foreground:    #DCE9F5;
+
+  --border:               #2A3340;  --color-border:               #2A3340;
+  --input:                #4A5563;  --color-input:                #4A5563;
+  --ring:                 #6CB0E8;  --color-ring:                 #6CB0E8;
+
+  --fg-link:              #6CB0E8;
+  --fg-link-hover:        #9CCBF2;
+
+  --eligible-bg:   #0F2A14; --eligible-border:   #5CC36E;
+  --ineligible-bg: #2C2008; --ineligible-border: #E0B247;
+  --info-bg:       #11324D; --info-border:       #6CB0E8;
+  --warning-bg:    #2C2008; --warning-border:    #E0B247;
+
+  --nav-bg:        #0C1116;
+  --nav-fg:        #E8EAED;
+  --nav-hover-bg:  #161B22;
+  --nav-secondary-bg: #0F151B;
 }
 
 /* =============================================================================
@@ -298,6 +349,13 @@ html[data-theme="sa"] {
   /* When focus lands on the <main> after Skip-to-content, hide its outline */
   main:focus { outline: none; }
 
+  /* Programmatic focus targets that exist to move screen-reader / keyboard
+     attention but aren't really "interactive" — suppress the focus ring so it
+     doesn't read as a stray border. The element still announces because the
+     ref-based .focus() call lands here on mount. */
+  .flow__heading:focus,
+  .flow__heading:focus-visible { outline: none; }
+
   /* Visually-hidden but accessible */
   .sr-only {
     position: absolute;
@@ -316,75 +374,143 @@ html[data-theme="sa"] {
    Layout shell — header and footer
    ============================================================================= */
 @layer components {
-  /* ===== Site header ===== */
+  /* ===== Site header — cyan band + nav strips =====
+     Mirrors servicesaustralia.gov.au (2026 redesign):
+       row 1 (cyan):  wordmark   |   theme toggle · search · myGov · Sign in
+                                            "Create account · Online help"
+       row 2 (white): primary nav   (Individuals / Health pros / Businesses / Community groups)
+       row 3 (white): secondary nav (Raising kids / Living arrangements / ...)
+  */
   .site-header {
-    background: var(--background);
-    border-bottom: 4px solid var(--primary);
+    background: var(--header-bg);
+    color: var(--header-fg);
+    border-bottom: 1px solid var(--header-border);
     position: sticky;
     top: 0;
     z-index: 50;
   }
-  .site-header__inner {
+  .site-header__band {
     max-width: var(--container-max);
     margin: 0 auto;
-    padding: 0 var(--container-pad);
-    height: 80px;
+    padding: 16px var(--container-pad);
     display: flex;
     align-items: center;
     gap: 24px;
+    min-height: 96px;
   }
   .site-header__wordmark {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
     text-decoration: none;
-    color: inherit;
-    padding: 8px 0;
+    color: var(--header-fg);
+    padding: 4px 0;
   }
-  .site-header__wordmark:hover { text-decoration: none; }
+  .site-header__wordmark:hover { text-decoration: none; color: var(--header-fg); }
   .site-header__logo {
-    /* Isolation zone is reserved by header padding (24px) + gap (16px) on the
-       right side. Height is dictated by header height minus top/bottom padding.
-       Width is set inline via next/image and preserves the 1.94:1 aspect ratio. */
     display: block;
-    height: 56px;
+    height: 64px;
     width: auto;
-  }
-  .site-header__divider {
-    display: block;
-    width: 1px;
-    height: 40px;
-    background: var(--border);
   }
   .site-header__brand {
     font-family: var(--font-heading);
     font-size: 22px;
-    line-height: 28px;
+    line-height: 26px;
     font-weight: 700;
-    color: var(--primary);
+    color: var(--header-fg);
     letter-spacing: -0.01em;
   }
 
-  .site-header__search {
+  /* Right-hand utility cluster — wraps the toggle/search/myGov/Sign-in row
+     and the smaller "Create account · Online help" link row below it. */
+  .site-header__utility {
     margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .site-header__utility-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .site-header__utility-links {
+    display: flex;
+    gap: 12px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    line-height: 18px;
+  }
+  .site-header__utility-links a {
+    color: var(--header-fg);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .site-header__utility-links a:hover { color: var(--header-fg); text-decoration-thickness: 2px; }
+  .site-header__utility-divider {
+    width: 1px;
+    align-self: stretch;
+    background: var(--header-divider);
+  }
+
+  /* Light/dark theme toggle pill — sun half / moon half. Active half gets a
+     white pill behind it. Whole control is a single <button>. */
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    height: 36px;
+    padding: 3px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--header-fg);
+    background: transparent;
+    color: var(--header-fg);
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 16px;
+  }
+  .theme-toggle__half {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 10px;
+    height: 28px;
+    border-radius: var(--radius-pill);
+    color: inherit;
+  }
+  .theme-toggle__half[data-active="true"] {
+    background: #FFFFFF;
+    color: var(--header-fg);
+  }
+  html[data-theme="sa"].dark .theme-toggle__half[data-active="true"] {
+    background: #0C1116;
+    color: #E8EAED;
+  }
+
+  /* Search field — white pill, navy text, search icon button on the right */
+  .site-header__search {
     display: flex;
     align-items: stretch;
     gap: 0;
-    height: 44px;
-    border: 1px solid var(--input);
-    border-radius: var(--radius-pill);
+    height: 36px;
+    border: 1px solid var(--header-fg);
+    border-radius: 4px;
     overflow: hidden;
-    background: var(--background);
+    background: #FFFFFF;
     transition: border-color 120ms linear;
   }
-  .site-header__search:focus-within { border-color: var(--ring); }
+  .site-header__search:focus-within { border-color: var(--ring); outline: 2px solid var(--ring); outline-offset: 2px; }
   .site-header__search-input {
     border: 0;
     outline: 0;
     background: transparent;
-    padding: 0 16px;
-    width: 240px;
+    padding: 0 14px;
+    width: 220px;
     font-family: var(--font-sans);
     font-size: 14px;
     color: var(--foreground);
@@ -392,26 +518,136 @@ html[data-theme="sa"] {
   .site-header__search-input::placeholder { color: var(--muted-foreground); }
   .site-header__search-button {
     border: 0;
-    background: var(--primary);
-    color: var(--primary-foreground);
-    padding: 0 16px;
+    background: transparent;
+    color: var(--header-fg);
+    padding: 0 10px;
     cursor: pointer;
     display: grid;
     place-items: center;
   }
-  .site-header__search-button:hover { background: var(--primary-hover); }
 
+  /* myGov dropdown stub */
+  .site-header__mygov {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid var(--header-fg);
+    border-radius: 4px;
+    background: #FFFFFF;
+    color: var(--header-fg);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .site-header__mygov-logo {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .site-header__mygov-logo em {
+    font-style: normal;
+    color: var(--header-fg);
+  }
+
+  /* Sign-in button — solid black pill per the official design */
+  .site-header__signin {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 18px;
+    border: 1px solid #000;
+    border-radius: 4px;
+    background: #000;
+    color: #FFF;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .site-header__signin:hover { background: #1A1A1A; color: #FFF; text-decoration: none; }
+
+  /* Mobile-only hamburger. Hidden by default; shown via media query below. */
   .site-header__menu {
     display: none;
-    border: 1px solid var(--input);
-    background: var(--background);
-    color: var(--foreground);
-    width: 48px;
-    height: 48px;
-    border-radius: var(--radius-sm);
+    border: 1px solid var(--header-fg);
+    background: transparent;
+    color: var(--header-fg);
+    width: 44px;
+    height: 44px;
+    border-radius: 4px;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    gap: 6px;
+    padding: 0 12px;
+    width: auto;
+  }
+
+  /* ===== Primary nav (white strip below the cyan band) ===== */
+  .site-nav-primary {
+    background: var(--nav-bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .site-nav-primary__inner,
+  .site-nav-secondary__inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-pad);
+  }
+  .site-nav-primary__list,
+  .site-nav-secondary__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .site-nav-primary__link,
+  .site-nav-secondary__link {
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 16px;
+    color: var(--nav-fg);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 4px solid transparent;
+    margin-bottom: -1px;
+  }
+  .site-nav-primary__link:hover,
+  .site-nav-secondary__link:hover {
+    background: var(--nav-hover-bg);
+    color: var(--nav-fg);
+    text-decoration: none;
+  }
+  .site-nav-primary__link[aria-current="page"] {
+    border-bottom-color: var(--nav-active);
+  }
+
+  /* ===== Secondary nav (white strip, thinner underline) ===== */
+  .site-nav-secondary {
+    background: var(--nav-secondary-bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .site-nav-secondary__link {
+    font-weight: 400;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  .site-nav-secondary__link[aria-current="page"] {
+    font-weight: 600;
+    border-bottom-color: var(--nav-active);
   }
 
   /* ===== Site footer ===== */
@@ -427,8 +663,11 @@ html[data-theme="sa"] {
   }
   .site-footer__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 48px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 32px;
+  }
+  @media (max-width: 1024px) {
+    .site-footer__grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
   }
   .site-footer__heading {
     font-family: var(--font-heading);
@@ -484,25 +723,134 @@ html[data-theme="sa"] {
   .site-footer__copyright {
     font-size: 13px;
     line-height: 20px;
-    margin: 0;
+    margin: 24px 0 0;
     opacity: 0.7;
+  }
+
+  /* ===== Languages + social follow row ===== */
+  .site-footer__social-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 32px;
+    margin-top: 40px;
+  }
+  @media (max-width: 768px) {
+    .site-footer__social-row { grid-template-columns: 1fr; gap: 24px; }
+  }
+  .site-footer__lang-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: var(--radius-pill);
+    color: var(--footer-fg);
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .site-footer__lang-chip:hover {
+    color: var(--footer-fg);
+    background: rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+  }
+  .site-footer__social-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 8px;
+  }
+  .site-footer__social-link {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--footer-fg);
+    text-decoration: none;
+  }
+  .site-footer__social-link:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: var(--footer-fg);
+    text-decoration: none;
+  }
+
+  /* ===== Prototype disclaimer (footer meta) ===== */
+  .site-footer__prototype {
+    margin: 8px 0 0;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border-left: 3px solid var(--warning-500);
+    border-radius: var(--radius-xs);
+    color: var(--footer-fg);
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 600;
+  }
+
+  /* ===== Acknowledgement of Country ===== */
+  .site-footer__acknowledgement {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 24px;
+    align-items: center;
+  }
+  @media (max-width: 600px) {
+    .site-footer__acknowledgement { grid-template-columns: 1fr; gap: 16px; }
+  }
+  .site-footer__ack-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--footer-fg);
+    text-decoration: none;
+  }
+  .site-footer__ack-brand:hover { text-decoration: none; color: var(--footer-fg); }
+  .site-footer__ack-logo {
+    display: block;
+    height: 56px;
+    width: auto;
+    filter: brightness(0) invert(1); /* shows the dark coat-of-arms as white on the navy footer */
+  }
+  .site-footer__ack-wordmark {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+  }
+  .site-footer__ack-text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--footer-fg);
+    opacity: 0.9;
+    max-width: 80ch;
   }
 
   /* Mobile shell tweaks */
   @media (max-width: 768px) {
-    .site-header__inner { height: 64px; gap: 12px; }
-    .site-header__wordmark { gap: 12px; }
-    .site-header__logo { height: 44px; }
-    .site-header__divider { height: 32px; }
+    .site-header__band { min-height: 64px; padding: 10px var(--container-pad); gap: 12px; }
+    .site-header__wordmark { gap: 10px; }
+    .site-header__logo { height: 40px; }
     .site-header__brand { font-size: 16px; line-height: 20px; }
-    .site-header__search { display: none; }
-    .site-header__menu { display: grid; }
+
+    /* Hide all of the utility cluster on mobile — it's replaced by a single
+       hamburger that opens a drawer (built in a later task). The "Menu" /
+       search / dark-mode toggle move inside that drawer. */
+    .site-header__utility { display: none; }
+    .site-header__menu { display: inline-flex; }
+
+    /* Nav strips collapse into the mobile drawer too. */
+    .site-nav-primary,
+    .site-nav-secondary { display: none; }
+
     .site-footer__grid { grid-template-columns: 1fr; gap: 32px; }
     .site-footer__inner { padding: 40px var(--container-pad) 32px; }
   }
-  /* Tighter mobile breakpoint where the wordmark text would otherwise crowd the hamburger */
   @media (max-width: 420px) {
-    .site-header__divider { display: none; }
     .site-header__brand { display: none; }
   }
 }
@@ -655,8 +1003,8 @@ html[data-theme="sa"] {
   /* ===== Fact box ===== */
   .fact-box {
     background: var(--info-bg);
-    border-left: 4px solid var(--info-border);
-    border-radius: var(--radius-sm);
+    border-left: 4px solid var(--primary);
+    border-radius: 0;
     padding: 24px 28px;
   }
   .fact-box__title {
@@ -974,6 +1322,11 @@ html[data-theme="sa"] {
 
   .page__grid {
     display: grid;
+    grid-template-columns: 240px minmax(0, 1fr) 240px;
+    gap: 48px;
+  }
+  /* Two-column variant for pages without a left rail (e.g. the wizard) */
+  .page__grid--no-rail {
     grid-template-columns: minmax(0, 1fr) 280px;
     gap: 64px;
   }
@@ -1080,7 +1433,8 @@ html[data-theme="sa"] {
   }
 
   @media (max-width: 1024px) {
-    .page__grid { grid-template-columns: 1fr; gap: 32px; }
+    .page__grid,
+    .page__grid--no-rail { grid-template-columns: 1fr; gap: 32px; }
     .page__sidebar {
       position: static;
       border-left: 0;
@@ -1088,6 +1442,7 @@ html[data-theme="sa"] {
       border-top: 1px solid var(--border);
       padding-top: 24px;
     }
+    .side-rail { display: none; }
   }
   @media (max-width: 768px) {
     .page { padding: 16px var(--container-pad) 64px; }
@@ -1374,6 +1729,276 @@ html[data-theme="sa"] {
     display: inline-block;
   }
 }
+
+/* =============================================================================
+   Page chrome additions — side rail, page meta, page rating, tool rail, listen bar
+   ============================================================================= */
+@layer components {
+  /* ===== Left side-rail (sibling pages) ===== */
+  .side-rail {
+    position: sticky;
+    top: 200px;
+    align-self: start;
+    border-top: 4px solid var(--primary);
+    background: var(--card);
+  }
+  .side-rail__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 16px;
+    color: var(--foreground);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    width: 100%;
+    background: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .side-rail__back:hover { color: var(--fg-link); }
+  .side-rail__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .side-rail__link {
+    display: block;
+    padding: 12px 16px;
+    color: var(--foreground);
+    font-size: 14px;
+    line-height: 20px;
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    border-left: 3px solid transparent;
+  }
+  .side-rail__link:hover {
+    background: var(--nav-hover-bg);
+    color: var(--foreground);
+    text-decoration: none;
+  }
+  .side-rail__link--current {
+    background: var(--secondary);
+    border-left-color: var(--primary);
+    color: var(--foreground);
+    font-weight: 700;
+  }
+
+  /* ===== Page metadata (last updated + QC) ===== */
+  .page-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-top: 64px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--muted-foreground);
+  }
+  .page-meta__updated,
+  .page-meta__qc { margin: 0; }
+  @media (max-width: 600px) {
+    .page-meta { flex-direction: column; gap: 4px; align-items: flex-start; }
+  }
+
+  /* ===== Page rating widget ===== */
+  .page-rating {
+    margin-top: 48px;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+  .page-rating__title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+    color: var(--foreground);
+    margin: 0 0 16px;
+  }
+  .page-rating__scale {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .page-rating__face {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    color: var(--muted-foreground);
+    cursor: pointer;
+    min-width: 88px;
+    transition: background-color 120ms linear, color 120ms linear, border-color 120ms linear;
+  }
+  .page-rating__face:hover {
+    background: var(--nav-hover-bg);
+    color: var(--foreground);
+  }
+  .page-rating__face[data-checked="true"] {
+    background: var(--secondary);
+    border-color: var(--primary);
+    color: var(--foreground);
+  }
+  .page-rating__input:focus-visible + .page-rating__face {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  .page-rating__label {
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  /* ===== Floating tool rail ===== */
+  .tool-rail {
+    position: fixed;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 40;
+    pointer-events: none;
+  }
+  .tool-rail__list {
+    list-style: none;
+    margin: 0;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-radius: var(--radius-pill);
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-xs);
+    pointer-events: auto;
+  }
+  .tool-rail__button {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    color: var(--foreground);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .tool-rail__button:hover {
+    background: var(--secondary);
+    color: var(--primary);
+  }
+  @media (max-width: 768px) {
+    .tool-rail { display: none; }
+  }
+
+  /* ===== Mobile drawer (paired with SideRail) ===== */
+  .mobile-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: none;
+  }
+  @media (max-width: 1024px) {
+    .mobile-drawer { display: block; }
+  }
+  .mobile-drawer__scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  .mobile-drawer__panel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: min(360px, 100%);
+    background: var(--background);
+    color: var(--foreground);
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+  }
+  .mobile-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: var(--header-bg);
+    color: var(--header-fg);
+    border-bottom: 1px solid var(--header-border);
+  }
+  .mobile-drawer__title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .mobile-drawer__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    background: transparent;
+    color: var(--header-fg);
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .mobile-drawer__close:hover { background: rgba(13, 45, 68, 0.1); }
+
+  /* Inside the drawer, the rail items should not show the desktop top accent. */
+  .mobile-drawer__panel .side-rail__back { border-top: 0; }
+
+  /* ===== Sticky mobile Listen bar ===== */
+  .listen-bar {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    .listen-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: #0D2D44;
+      color: #FFFFFF;
+      z-index: 45;
+      border-top: 1px solid var(--header-divider);
+    }
+    .listen-bar__button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: inherit;
+      border: 0;
+      padding: 0 16px;
+      cursor: pointer;
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 700;
+    }
+    /* Reserve space under main so the bar never overlaps form CTAs. */
+    main { padding-bottom: 56px; }
+  }
+}
+
 
 
 

@@ -1,17 +1,48 @@
 import Link from "next/link";
+import { ChevronDown, Search } from "lucide-react";
+
+import { MobileMenuButton } from "@/components/layout/mobile-menu-button";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
+
+/**
+ * Header chrome mirroring servicesaustralia.gov.au (2026 redesign):
+ *   row 1 (cyan):    wordmark  |  theme toggle · search · myGov · Sign in
+ *                                  "Create account · Online help"
+ *   row 2 (white):   primary nav   — Individuals (active) / Health professionals / Businesses / Community groups
+ *   row 3 (white-2): secondary nav — Raising kids (active) / Living arrangements / Ageing / Work / Education / Health and disability
+ *
+ * Search, myGov, Sign in and the nav links are all non-functional href="#"
+ * stubs in this prototype — they exist for visual fidelity only.
+ */
+
+type NavItem = { label: string; href: string; current?: boolean };
+
+const primaryNav: readonly NavItem[] = [
+  { label: "Individuals", href: "/", current: true },
+  { label: "Health professionals", href: "#" },
+  { label: "Businesses", href: "#" },
+  { label: "Community groups", href: "#" },
+];
+
+const secondaryNav: readonly NavItem[] = [
+  { label: "Raising kids", href: "/", current: true },
+  { label: "Living arrangements", href: "#" },
+  { label: "Ageing", href: "#" },
+  { label: "Work", href: "#" },
+  { label: "Education", href: "#" },
+  { label: "Health and disability", href: "#" },
+];
 
 export function SiteHeader() {
   return (
     <header className="site-header">
-      <div className="site-header__inner">
+      {/* ===== Row 1: cyan band ===== */}
+      <div className="site-header__band">
         <Link
           href="/"
           className="site-header__wordmark"
           aria-label="Services Australia — home"
         >
-          {/* The Australian Government logo (Commonwealth Coat of Arms +
-              "Australian Government"). The parent <a> aria-label conveys the
-              accessible name of the link; this image is decorative within it. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/australian-government-stacked.svg"
@@ -21,74 +52,106 @@ export function SiteHeader() {
             height={67}
             className="site-header__logo"
           />
-          <span className="site-header__divider" aria-hidden="true" />
           <span className="site-header__brand">Services Australia</span>
         </Link>
 
-        <div
-          role="search"
-          className="site-header__search"
-          aria-label="Search Services Australia (non-functional in prototype)"
-        >
-          <label htmlFor="site-search" className="sr-only">
-            Search
-          </label>
-          <input
-            id="site-search"
-            type="search"
-            placeholder="Search"
-            autoComplete="off"
-            className="site-header__search-input"
-          />
-          <button
-            type="button"
-            className="site-header__search-button"
-            aria-label="Search"
-          >
-            <SearchIcon />
-          </button>
+        <div className="site-header__utility">
+          <div className="site-header__utility-row">
+            <ThemeToggle />
+
+            <div
+              role="search"
+              className="site-header__search"
+              aria-label="Search Services Australia (non-functional in prototype)"
+            >
+              <label htmlFor="site-search" className="sr-only">
+                Search
+              </label>
+              <input
+                id="site-search"
+                type="search"
+                placeholder="Search"
+                autoComplete="off"
+                className="site-header__search-input"
+              />
+              <button
+                type="button"
+                className="site-header__search-button"
+                aria-label="Search"
+              >
+                <Search size={18} aria-hidden="true" />
+              </button>
+            </div>
+
+            <button
+              type="button"
+              className="site-header__mygov"
+              aria-haspopup="menu"
+              aria-expanded="false"
+            >
+              <span className="site-header__mygov-logo">
+                my<em>Gov</em>
+              </span>
+              <span>Individuals</span>
+              <ChevronDown size={16} aria-hidden="true" />
+            </button>
+
+            <Link href="#" className="site-header__signin">
+              Sign in
+            </Link>
+          </div>
+
+          <ul className="site-header__utility-links">
+            <li>
+              <a href="#">Create account</a>
+            </li>
+            <li aria-hidden="true">|</li>
+            <li>
+              <a href="#">Online help</a>
+            </li>
+          </ul>
         </div>
 
-        <button
-          type="button"
-          className="site-header__menu"
-          aria-label="Menu"
-          aria-expanded="false"
-        >
-          <MenuIcon />
-        </button>
+        <MobileMenuButton />
       </div>
+
+      {/* ===== Row 2: primary nav ===== */}
+      <nav aria-label="Primary" className="site-nav-primary">
+        <div className="site-nav-primary__inner">
+          <ul className="site-nav-primary__list">
+            {primaryNav.map((item) => (
+              <li key={item.label}>
+                <Link
+                  href={item.href}
+                  className="site-nav-primary__link"
+                  aria-current={item.current ? "page" : undefined}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+
+      {/* ===== Row 3: secondary contextual nav ===== */}
+      <nav aria-label="Section" className="site-nav-secondary">
+        <div className="site-nav-secondary__inner">
+          <ul className="site-nav-secondary__list">
+            {secondaryNav.map((item) => (
+              <li key={item.label}>
+                <Link
+                  href={item.href}
+                  className="site-nav-secondary__link"
+                  aria-current={item.current ? "page" : undefined}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
     </header>
-  );
-}
-
-function SearchIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <circle cx="9" cy="9" r="6" stroke="currentColor" strokeWidth="2" />
-      <path d="M13.5 13.5L17 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function MenuIcon() {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
   );
 }
