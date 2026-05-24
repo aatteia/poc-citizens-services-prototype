@@ -632,9 +632,9 @@ html[data-theme="sa"].dark {
     text-decoration: none;
   }
   .site-nav-primary__link[aria-current="page"] {
-    background: var(--primary);
-    color: var(--primary-foreground);
-    border-bottom-color: transparent;
+    background: var(--nav-secondary-bg);
+    color: var(--nav-fg);
+    border-bottom-color: var(--nav-active);
   }
 
   /* ===== Secondary nav (white strip, thinner underline) ===== */
