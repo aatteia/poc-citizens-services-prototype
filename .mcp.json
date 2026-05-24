@@ -6,7 +6,7 @@
       ],
       "command": "/Applications/Automatic.app/Contents/MacOS/automatic",
       "env": {
-        "AUTOMATIC_PROJECT": "scaffold-foundation"
+        "AUTOMATIC_PROJECT": "poc-sa-parenting-eligibility"
       }
     }
   }

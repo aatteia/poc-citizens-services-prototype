@@ -1,65 +1,148 @@
-import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+import { Breadcrumb } from "@/components/nav/breadcrumb";
+import { FactBox, FactBoxItem, FactBoxList } from "@/components/content/fact-box";
+import { buttonVariants } from "@/components/ui/button";
+
+const sections = [
+  { id: "who", label: "Who can get it" },
+  { id: "how-much", label: "How much you'll get" },
+  { id: "how-to-claim", label: "How to claim" },
+  { id: "manage", label: "Manage your payment" },
+] as const;
+
+export default function OverviewPage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="page">
+      <div className="page__breadcrumb">
+        <Breadcrumb
+          items={[
+            { label: "Home", href: "#" },
+            { label: "Payments and services", href: "#" },
+            { label: "Families", href: "#" },
+            { label: "Parenting Payment" },
+          ]}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+      </div>
+
+      <div className="page__grid">
+        <div className="page__main">
+          <header className="page__hero">
+            <p className="page__eyebrow">For families</p>
+            <h1 className="page__title">Parenting Payment</h1>
+            <p className="page__intro">
+              Parenting Payment is income support for the main carer of a young
+              child. Use this short check to see if you may be eligible — it
+              takes about two minutes and your answers aren&rsquo;t saved.
+            </p>
+
+            <div className="page__cta-row">
+              <Link
+                href="/check/q1"
+                className={buttonVariants({ variant: "primary", size: "lg" })}
+                aria-describedby="cta-helper"
+              >
+                Check if you&rsquo;re eligible
+              </Link>
+              <p id="cta-helper" className="page__cta-helper">
+                Anonymous · No sign-in required
+              </p>
+            </div>
+
+            <div className="page__hero-facts">
+              <FactBox title="Key facts">
+                <FactBoxList>
+                  <FactBoxItem
+                    label="Fortnightly rate"
+                    value="Up to $1,096.10"
+                    caption="For a single principal carer. Couples receive less."
+                  />
+                  <FactBoxItem
+                    label="Income test"
+                    value="Below $2,536.20 / fortnight"
+                    caption="Singles, including family assistance. Couples and partnered amounts differ."
+                  />
+                  <FactBoxItem
+                    label="Child age limit"
+                    value="Single carers — under 8"
+                    caption="Partnered carers — under 6."
+                  />
+                </FactBoxList>
+              </FactBox>
+            </div>
+          </header>
+
+          <section id="who" className="page__section">
+            <h2 className="page__section-title">Who can get it</h2>
+            <p>
+              You can get Parenting Payment if you&rsquo;re the principal carer
+              of a child under the age limit, you meet the residency rules, and
+              your income and assets are under the relevant limits. Only one
+              parent or carer in a couple can get it.
+            </p>
+            <p>
+              You also need to be in Australia on the day you submit your
+              claim, and you need to meet mutual obligation requirements such
+              as a job plan once your youngest child turns 6.
+            </p>
+          </section>
+
+          <section id="how-much" className="page__section">
+            <h2 className="page__section-title">How much you&rsquo;ll get</h2>
+            <p>
+              The amount you get depends on your family situation, your income,
+              and your partner&rsquo;s income if you have one. The maximum for
+              a single principal carer is around $1,096 per fortnight,
+              including the Pension Supplement.
+            </p>
+            <p>
+              Use the eligibility check above to see whether you may qualify,
+              then use the Payment and Service Finder to estimate your specific
+              fortnightly amount.
+            </p>
+          </section>
+
+          <section id="how-to-claim" className="page__section">
+            <h2 className="page__section-title">How to claim</h2>
+            <p>
+              You claim Parenting Payment through your myGov account once
+              you&rsquo;ve linked Centrelink. Most claims take around 20
+              minutes to complete online. Before you start, gather your
+              identification, bank details, and information about your income
+              and your partner&rsquo;s income.
+            </p>
+            <p>
+              If you can&rsquo;t claim online, you can also claim in person at
+              a service centre or by calling the Families line.
+            </p>
+          </section>
+
+          <section id="manage" className="page__section">
+            <h2 className="page__section-title">Manage your payment</h2>
+            <p>
+              Keep your details up to date through myGov so your payment stays
+              correct. Tell Services Australia within 14 days if your income,
+              relationship status, address, or your child&rsquo;s circumstances
+              change.
+            </p>
+          </section>
+        </div>
+
+        <aside className="page__sidebar" aria-labelledby="on-this-page">
+          <p id="on-this-page" className="page__sidebar-title">
+            On this page
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+          <ol className="page__sidebar-list">
+            {sections.map((s) => (
+              <li key={s.id}>
+                <a href={`#${s.id}`} className="page__sidebar-link">
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </aside>
+      </div>
     </div>
   );
 }
