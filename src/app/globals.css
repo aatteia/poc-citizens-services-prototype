@@ -633,19 +633,31 @@ html[data-theme="sa"].dark {
     text-decoration: none;
     border-bottom: 4px solid transparent;
     margin-bottom: -1px;
+    transition: background-color 120ms linear;
   }
   .site-nav-primary__link:hover,
   .site-nav-secondary__link:hover {
     background: var(--nav-hover-bg);
-    color: var(--nav-fg);
+    color: var(--fg-link);
     text-decoration: none;
   }
-  /* Primary nav active = audience context only — quiet treatment so the
-     secondary nav's active state is the dominant "you are here" marker.
-     Just bolder text, no background, no underline. */
+  .site-nav-primary__link:active,
+  .site-nav-secondary__link:active {
+    background: var(--smalt-100); /* #EBF3FB — one step darker than hover */
+  }
+  .site-nav-primary__link:focus-visible,
+  .site-nav-secondary__link:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: -2px;
+  }
+  /* Primary nav active — persistent hover tint + non-interactive so the
+     user cannot re-navigate to the current audience context. */
   .site-nav-primary__link[aria-current="page"] {
-    font-weight: 700;
+    background: var(--nav-hover-bg);
     color: var(--nav-fg);
+    font-weight: 700;
+    cursor: default;
+    pointer-events: none;
   }
 
   /* ===== Secondary nav (white strip, thinner underline) ===== */
@@ -659,8 +671,11 @@ html[data-theme="sa"].dark {
     font-size: 14px;
   }
   .site-nav-secondary__link[aria-current="page"] {
+    background: var(--nav-hover-bg);
     font-weight: 600;
     border-bottom-color: var(--nav-active);
+    cursor: default;
+    pointer-events: none;
   }
 
   /* ===== Site footer ===== */
