@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { Breadcrumb } from "@/components/nav/breadcrumb";
+import { SideRail } from "@/components/nav/side-rail";
 import { RelatedPaymentCard } from "@/components/content/related-payment-card";
 import { PageMeta } from "@/components/content/page-meta";
 import { PageRating } from "@/components/feedback/page-rating";
@@ -16,6 +17,7 @@ import {
   type IneligibilityReason,
 } from "@/lib/eligibility";
 import { useFlow } from "@/lib/flow-context";
+import { familyPayments } from "@/lib/nav-data";
 import { answerLabel, questions } from "@/lib/questions";
 
 const reasonCopy: Record<IneligibilityReason, string> = {
@@ -26,6 +28,11 @@ const reasonCopy: Record<IneligibilityReason, string> = {
   income:
     "Your income is above the limit for Parenting Payment. You may still be eligible for other payments.",
 };
+
+const sections = [
+  { id: "related-payments", label: "Other payments to check" },
+  { id: "your-answers",     label: "Your answers" },
+] as const;
 
 export default function IneligibleResult() {
   const router = useRouter();
@@ -62,85 +69,111 @@ export default function IneligibleResult() {
   }
 
   return (
-    <div className="page page--flow">
-      <div className="page__breadcrumb">
-        <Breadcrumb
-          items={[
-            { label: "Home", href: "/" },
-            { label: "Families", href: "/" },
-            { label: "Parenting Payment", href: "/" },
-            { label: "Your result" },
-          ]}
+    <div className="page">
+      <div className="page__grid">
+        <SideRail
+          parentLabel="Families"
+          parentHref="/"
+          items={familyPayments}
+          ariaLabel="Family payments"
         />
-      </div>
 
-      <div className="result">
-        <h1 ref={headingRef} tabIndex={-1} className="result__heading">
-          Your result
-        </h1>
-
-        <StatusBanner
-          variant="ineligible"
-          title="Based on your answers, you may not be eligible for Parenting Payment."
-        >
-          <p>{reasonCopy[result.reason]}</p>
-        </StatusBanner>
-
-        <section className="result__section" aria-labelledby="related-payments">
-          <h2 id="related-payments" className="result__section-title">
-            Other payments you might check
-          </h2>
-          <p className="result__lede">
-            You may be eligible for one of these payments instead. Each
-            payment has its own eligibility rules.
-          </p>
-          <div className="result__related">
-            <RelatedPaymentCard
-              title="JobSeeker Payment"
-              description="Financial help if you're between 22 and Age Pension age and looking for work."
-              href="#"
-            />
-            <RelatedPaymentCard
-              title="Family Tax Benefit Part A"
-              description="A payment to help with the cost of raising children."
-              href="#"
-            />
-            <RelatedPaymentCard
-              title="Family Tax Benefit Part B"
-              description="Extra help for families with one main income."
-              href="#"
+        <div className="page__main">
+          <div className="page__breadcrumb">
+            <Breadcrumb
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Families", href: "/" },
+                { label: "Parenting Payment", href: "/" },
+                { label: "Your result" },
+              ]}
             />
           </div>
-        </section>
 
-        {summaryEntries.length > 0 && (
-          <section className="result__section" aria-labelledby="your-answers">
-            <h2 id="your-answers" className="result__section-title">
-              Your answers
-            </h2>
-            <AnswerSummary entries={summaryEntries} />
-          </section>
-        )}
+          <div className="result">
+            <h1 ref={headingRef} tabIndex={-1} className="result__heading">
+              Your result
+            </h1>
 
-        <div className="result__actions">
-          <Link
-            href="#"
-            className={buttonVariants({ variant: "primary", size: "lg" })}
-          >
-            Check another payment
-          </Link>
-          <Button
-            type="button"
-            variant="secondary"
-            size="lg"
-            onClick={handleStartAgain}
-          >
-            Start again
-          </Button>
+            <StatusBanner
+              variant="ineligible"
+              title="Based on your answers, you may not be eligible for Parenting Payment."
+            >
+              <p>{reasonCopy[result.reason]}</p>
+            </StatusBanner>
+
+            <section className="result__section" aria-labelledby="related-payments">
+              <h2 id="related-payments" className="result__section-title">
+                Other payments you might check
+              </h2>
+              <p className="result__lede">
+                You may be eligible for one of these payments instead. Each
+                payment has its own eligibility rules.
+              </p>
+              <div className="result__related">
+                <RelatedPaymentCard
+                  title="JobSeeker Payment"
+                  description="Financial help if you're between 22 and Age Pension age and looking for work."
+                  href="#"
+                />
+                <RelatedPaymentCard
+                  title="Family Tax Benefit Part A"
+                  description="A payment to help with the cost of raising children."
+                  href="#"
+                />
+                <RelatedPaymentCard
+                  title="Family Tax Benefit Part B"
+                  description="Extra help for families with one main income."
+                  href="#"
+                />
+              </div>
+            </section>
+
+            {summaryEntries.length > 0 && (
+              <section className="result__section" aria-labelledby="your-answers">
+                <h2 id="your-answers" className="result__section-title">
+                  Your answers
+                </h2>
+                <AnswerSummary entries={summaryEntries} />
+              </section>
+            )}
+
+            <div className="result__actions">
+              <Link
+                href="#"
+                className={buttonVariants({ variant: "primary", size: "lg" })}
+              >
+                Check another payment
+              </Link>
+              <Button
+                type="button"
+                variant="secondary"
+                size="lg"
+                onClick={handleStartAgain}
+              >
+                Start again
+              </Button>
+            </div>
+
+            <PageRating />
+            <PageMeta lastUpdated="24 May 2026" qcReference="QC 60243" />
+          </div>
         </div>
 
-        <PageRating />
-        <PageMeta lastUpdated="24 May 2026" qcReference="QC 60243" />
+        <aside className="page__sidebar" aria-labelledby="on-this-page-ineligible">
+          <p id="on-this-page-ineligible" className="page__sidebar-title">
+            On this page
+          </p>
+          <ol className="page__sidebar-list">
+            {sections.map((s) => (
+              <li key={s.id}>
+                <a href={`#${s.id}`} className="page__sidebar-link">
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </aside>
       </div>
     </div>
   );

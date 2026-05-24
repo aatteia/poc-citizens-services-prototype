@@ -6,6 +6,7 @@ import { FactBox, FactBoxItem, FactBoxList } from "@/components/content/fact-box
 import { PageMeta } from "@/components/content/page-meta";
 import { PageRating } from "@/components/feedback/page-rating";
 import { buttonVariants } from "@/components/ui/button";
+import { familyPayments } from "@/lib/nav-data";
 
 const sections = [
   { id: "who", label: "Who can get it" },
@@ -13,18 +14,6 @@ const sections = [
   { id: "how-to-claim", label: "How to claim" },
   { id: "manage", label: "Manage your payment" },
 ] as const;
-
-// Mock sibling-page list for the "Families" section that Parenting Payment
-// sits under. Real Services Australia data — used here for visual fidelity.
-const familyPayments = [
-  { label: "Parenting Payment", href: "/", current: true },
-  { label: "Family Tax Benefit", href: "#" },
-  { label: "Child Care Subsidy", href: "#" },
-  { label: "Paid Parental Leave", href: "#" },
-  { label: "Newborn Upfront Payment and Newborn Supplement", href: "#" },
-  { label: "Dad and Partner Pay", href: "#" },
-  { label: "Stillborn Baby Payment", href: "#" },
-];
 
 export default function OverviewPage() {
   return (
