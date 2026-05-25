@@ -166,9 +166,13 @@ html[data-theme="sa"] {
   --destructive: #B01F13;         --color-destructive: #B01F13;
   --destructive-foreground: #FFFFFF; --color-destructive-foreground: #FFFFFF;
 
-  /* Borders / inputs */
-  --border: #EBEBEB;              --color-border: #EBEBEB;
-  --input:  #ADADAD;              --color-input:  #ADADAD;
+  /* Borders / inputs
+     --border       — decorative dividers between rows of static content
+     --border-strong — visible boundary of interactive containers (WCAG 1.4.11, 3:1)
+     --input        — form-control outlines (4.5:1 on white) */
+  --border:        #EBEBEB;       --color-border:        #EBEBEB;
+  --border-strong: #767676;       --color-border-strong: #767676;
+  --input:         #757575;       --color-input:         #757575;
 
   /* Focus ring — SA action blue */
   --ring: #005EA2;                --color-ring: #005EA2;
@@ -224,11 +228,20 @@ html[data-theme="sa"].dark {
   --accent-foreground:    #DCE9F5;  --color-accent-foreground:    #DCE9F5;
 
   --border:               #2A3340;  --color-border:               #2A3340;
-  --input:                #4A5563;  --color-input:                #4A5563;
+  --border-strong:        #6B7785;  --color-border-strong:        #6B7785;
+  --input:                #6B7785;  --color-input:                #6B7785;
   --ring:                 #6CB0E8;  --color-ring:                 #6CB0E8;
 
   --fg-link:              #6CB0E8;
   --fg-link-hover:        #9CCBF2;
+
+  /* Semantic colours flip in dark mode so error/success text passes 4.5:1.
+     The light-mode #B01F13 red is only 2.8:1 on dark bg — replace with a
+     lighter red. Likewise --success-600 #006D3D is only 3.0:1 — replace
+     with the same green already used by --eligible-border. */
+  --destructive:           #F87171;  --color-destructive:           #F87171;
+  --destructive-foreground:#1A0908;  --color-destructive-foreground:#1A0908;
+  --success-600:           #5CC36E;
 
   --eligible-bg:   #0F2A14; --eligible-border:   #5CC36E;
   --ineligible-bg: #2C2008; --ineligible-border: #E0B247;
@@ -264,6 +277,7 @@ html[data-theme="sa"].dark {
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-input: var(--input);
   --color-ring: var(--ring);
 
@@ -559,6 +573,119 @@ html[data-theme="sa"].dark {
   .site-header__mygov-logo em {
     font-style: normal;
     color: var(--header-fg);
+  }
+
+  /* ===== myGov dropdown panel ===== */
+  .mygov-dropdown {
+    position: relative;
+  }
+  .mygov-dropdown__chevron {
+    transition: transform 120ms linear;
+  }
+  .mygov-dropdown__chevron--open {
+    transform: rotate(180deg);
+  }
+
+  /* Panel */
+  .mygov-dropdown__panel {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    width: 340px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.14);
+    z-index: 300;
+    overflow: hidden;
+  }
+
+  /* Header row — myGov logo + Individuals summary */
+  .mygov-dropdown__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    background: var(--secondary);
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Stacked two-line myGov badge */
+  .mygov-dropdown__badge {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.1;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 15px;
+    flex-shrink: 0;
+    padding: 6px 8px;
+    border: 2px solid var(--foreground);
+    border-radius: 2px;
+  }
+  .mygov-dropdown__badge-my {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+  .mygov-dropdown__badge-gov {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .mygov-dropdown__header-text {
+    flex: 1;
+  }
+  .mygov-dropdown__header-title {
+    margin: 0 0 4px;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--foreground);
+  }
+  .mygov-dropdown__header-desc {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--muted-foreground);
+  }
+
+  /* Portal list */
+  .mygov-dropdown__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .mygov-dropdown__item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: var(--foreground);
+    border-bottom: 1px solid var(--border);
+    transition: background-color 120ms linear;
+  }
+  .mygov-dropdown__item:last-child {
+    border-bottom: none;
+  }
+  .mygov-dropdown__item:hover {
+    background: var(--secondary);
+    text-decoration: none;
+  }
+  .mygov-dropdown__item:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: -2px;
+  }
+  .mygov-dropdown__item-label {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--foreground);
+  }
+  .mygov-dropdown__item-desc {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--muted-foreground);
   }
 
   /* Sign-in button — solid black pill per the official design */
@@ -1079,7 +1206,7 @@ html[data-theme="sa"].dark {
     flex-direction: column;
     gap: 8px;
     background: var(--card);
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-strong);
     border-radius: 0;
     padding: 24px;
     box-shadow: var(--shadow-sm);
@@ -1161,7 +1288,7 @@ html[data-theme="sa"].dark {
 
   /* ===== Radio card (tile-style option) ===== */
   .radio-card {
-    --rc-border: var(--border);
+    --rc-border: var(--border-strong);
     --rc-bg: var(--background);
     display: flex;
     align-items: flex-start;
@@ -1232,7 +1359,7 @@ html[data-theme="sa"].dark {
 
   /* ===== Answer summary (Collapsible) ===== */
   .answer-summary {
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-strong);
     border-radius: 0;
     padding: 16px 20px;
     background: var(--background);

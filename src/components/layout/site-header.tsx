@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ChevronDown, Search } from "lucide-react";
+import { Search } from "lucide-react";
 
 import { MobileMenuButton } from "@/components/layout/mobile-menu-button";
+import { MyGovDropdown } from "@/components/layout/mygov-dropdown";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 
 /**
@@ -83,18 +84,7 @@ export function SiteHeader() {
               </button>
             </div>
 
-            <button
-              type="button"
-              className="site-header__mygov"
-              aria-haspopup="menu"
-              aria-expanded="false"
-            >
-              <span className="site-header__mygov-logo">
-                my<em>Gov</em>
-              </span>
-              <span>Individuals</span>
-              <ChevronDown size={16} aria-hidden="true" />
-            </button>
+            <MyGovDropdown />
 
             <Link href="#" className="site-header__signin">
               Sign in
