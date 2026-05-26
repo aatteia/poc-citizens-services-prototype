@@ -183,11 +183,11 @@ html[data-theme="sa"] {
   --fg-link:        #005EA2;
   --fg-link-hover:  #003F73;
 
-  /* Banner tints */
-  --eligible-bg:     #E8F5E9;     --eligible-border:   #1D7324;
-  --ineligible-bg:   #FFF8E1;     --ineligible-border: #7A5800;
+  /* Banner tints — text tokens keep contrast ≥ 4.5:1 in both modes */
+  --eligible-bg:     #E8F5E9;     --eligible-border:   #1D7324;   --eligible-text:    #0E4A18;
+  --ineligible-bg:   #FFF8E1;     --ineligible-border: #7A5800;   --ineligible-text:  #4A3700;
   --info-bg:         #E8F4FD;     --info-border:       #1B4F72;
-  --warning-bg:      #FFF8E1;     --warning-border:    #7A5800;
+  --warning-bg:      #FFF8E1;     --warning-border:    #7A5800;   --warning-text:     #4A3700;
 
   /* Footer */
   --footer-bg: #0D2D44;
@@ -243,15 +243,22 @@ html[data-theme="sa"].dark {
   --destructive-foreground:#1A0908;  --color-destructive-foreground:#1A0908;
   --success-600:           #5CC36E;
 
-  --eligible-bg:   #0F2A14; --eligible-border:   #5CC36E;
-  --ineligible-bg: #2C2008; --ineligible-border: #E0B247;
+  --eligible-bg:   #0F2A14; --eligible-border:   #5CC36E;  --eligible-text:   #5CC36E;
+  --ineligible-bg: #2C2008; --ineligible-border: #E0B247;  --ineligible-text: #E0B247;
   --info-bg:       #11324D; --info-border:       #6CB0E8;
-  --warning-bg:    #2C2008; --warning-border:    #E0B247;
+  --warning-bg:    #2C2008; --warning-border:    #E0B247;  --warning-text:    #E0B247;
 
   --nav-bg:        #0C1116;
   --nav-fg:        #E8EAED;
   --nav-hover-bg:  #161B22;
   --nav-secondary-bg: #0F151B;
+
+  /* Header band flips to dark in dark mode — matches the official SA dark-mode
+     treatment. Reuses existing dark tokens rather than introducing new values. */
+  --header-bg:      #0C1116;                    /* = --background */
+  --header-fg:      #E8EAED;                    /* = --foreground */
+  --header-border:  #2A3340;                    /* = --border */
+  --header-divider: rgba(232, 234, 237, 0.15);
 }
 
 /* =============================================================================
@@ -504,14 +511,62 @@ html[data-theme="sa"].dark {
     height: 28px;
     border-radius: var(--radius-pill);
     color: inherit;
+    transition: background-color 120ms linear;
   }
+
+  /* Light mode — inactive hover / pressed */
+  .theme-toggle__half:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+  .theme-toggle__half:active {
+    background: rgba(255, 255, 255, 0.45);
+  }
+
+  /* Light mode — active half: white pill on cyan */
   .theme-toggle__half[data-active="true"] {
     background: #FFFFFF;
     color: var(--header-fg);
   }
+  .theme-toggle__half[data-active="true"]:hover {
+    background: #F0F0F0;
+  }
+  .theme-toggle__half[data-active="true"]:active {
+    background: #DCDCDC;
+  }
+
+  /* Dark mode — active half: foreground-coloured pill on dark band */
   html[data-theme="sa"].dark .theme-toggle__half[data-active="true"] {
-    background: #0C1116;
-    color: #E8EAED;
+    background: #E8EAED;   /* = --foreground */
+    color: #0C1116;        /* = --background */
+  }
+  html[data-theme="sa"].dark .theme-toggle__half[data-active="true"]:hover {
+    background: #C5C8CC;
+  }
+  html[data-theme="sa"].dark .theme-toggle__half[data-active="true"]:active {
+    background: #A8B2BD;   /* = --muted-foreground */
+  }
+
+  /* Dark mode — inactive half hover / pressed */
+  html[data-theme="sa"].dark .theme-toggle__half:not([data-active="true"]):hover {
+    background: #161B22;   /* = --card */
+  }
+  html[data-theme="sa"].dark .theme-toggle__half:not([data-active="true"]):active {
+    background: #2A3340;   /* = --border */
+  }
+
+  /* In dark mode: invert the coat-of-arms to white so it reads on the dark band */
+  html[data-theme="sa"].dark .site-header__logo {
+    filter: brightness(0) invert(1);
+  }
+
+  /* Search field dark-mode: dark card surface, light text + border */
+  html[data-theme="sa"].dark .site-header__search {
+    background: var(--card);   /* #161B22 — slight elevation from the band */
+  }
+
+  /* myGov button dark-mode: dark card surface instead of white */
+  html[data-theme="sa"].dark .site-header__mygov {
+    background: var(--card);   /* #161B22 */
   }
 
   /* Search field — white pill, navy text, search icon button on the right */
@@ -1132,13 +1187,13 @@ html[data-theme="sa"].dark {
   .banner--eligible {
     background: var(--eligible-bg);
     border-left-color: var(--eligible-border);
-    color: #0E4A18;
+    color: var(--eligible-text);
   }
   .banner--eligible .banner__icon { color: var(--eligible-border); }
   .banner--ineligible {
     background: var(--ineligible-bg);
     border-left-color: var(--ineligible-border);
-    color: #4A3700;
+    color: var(--ineligible-text);
   }
   .banner--ineligible .banner__icon { color: var(--ineligible-border); }
   .banner--info {
@@ -1150,7 +1205,7 @@ html[data-theme="sa"].dark {
   .banner--warning {
     background: var(--warning-bg);
     border-left-color: var(--warning-border);
-    color: #4A3700;
+    color: var(--warning-text);
   }
   .banner--warning .banner__icon { color: var(--warning-border); }
 
