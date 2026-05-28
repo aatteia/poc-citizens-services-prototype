@@ -12,6 +12,7 @@ import { InlineError } from "@/components/feedback/inline-error";
 import { StatusBanner } from "@/components/feedback/status-banner";
 import { ProgressIndicator } from "@/components/flow/progress-indicator";
 import { Button } from "@/components/ui/button";
+import { Session2Section } from "./session-2-section";
 
 export const metadata: Metadata = {
   title: "Design system — Parenting Payment prototype",
@@ -265,6 +266,8 @@ export default function ComponentLibrary() {
           </p>
         </div>
       </Section>
+
+      <Session2Section />
     </div>
   );
 }

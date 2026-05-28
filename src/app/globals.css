@@ -860,6 +860,23 @@ html[data-theme="sa"].dark {
     pointer-events: none;
   }
 
+  /* Non-functional nav items — visually present but inert. Used for audience
+     or scenario sections that aren't part of this prototype (Businesses,
+     Health, Work, etc.). Native title attribute carries the tooltip. */
+  .site-nav-primary__link--disabled,
+  .site-nav-secondary__link--disabled {
+    cursor: default;
+    color: var(--muted-foreground);
+  }
+  .site-nav-primary__link--disabled:hover,
+  .site-nav-secondary__link--disabled:hover,
+  .site-nav-primary__link--disabled:active,
+  .site-nav-secondary__link--disabled:active {
+    background: transparent;
+    color: var(--muted-foreground);
+    text-decoration: none;
+  }
+
   /* ===== Site footer ===== */
   .site-footer {
     background: var(--footer-bg);
@@ -1471,6 +1488,243 @@ html[data-theme="sa"].dark {
   @media (max-width: 540px) {
     .answer-summary__item { grid-template-columns: 1fr; }
     .answer-summary__answer { text-align: left; }
+  }
+
+  /* =============================================================================
+     Session 2 — Carer Payment "Prepare to claim" checklist
+     ============================================================================= */
+
+  /* Prepare page layout — full-width single content column (no side rail) */
+  .page--prepare .page__main {
+    max-width: 768px;
+    margin: 0 auto;
+    padding-top: 16px;
+    padding-bottom: 48px;
+  }
+  .page--prepare .page__breadcrumb {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+  /* Sticky progress wrapper — sits below the sticky site header */
+  .prepare__progress-wrap {
+    position: sticky;
+    top: var(--header-height);
+    z-index: 40;
+    background: var(--background);
+    border-bottom: 1px solid var(--border);
+  }
+  .prepare__progress-inner {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 0 var(--container-pad);
+  }
+
+  .prepare__intro {
+    font-size: 17px;
+    line-height: 26px;
+    color: var(--foreground);
+    margin: 0 0 32px;
+  }
+  .prepare__groups {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .prepare__title {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 44px;
+    letter-spacing: -0.01em;
+    margin: 16px 0 12px;
+  }
+
+  /* ===== Progress summary bar ===== */
+  .progress-summary {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    background: transparent;
+  }
+  .progress-summary__label {
+    margin: 0;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--foreground);
+    flex-shrink: 0;
+  }
+  .progress-summary__count {
+    font-weight: 700;
+  }
+  .progress-summary__track {
+    flex: 1;
+    height: 6px;
+    background: var(--muted);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+  }
+  .progress-summary__fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: var(--radius-pill);
+    transition: width 200ms ease-out;
+  }
+
+  /* ===== Checklist group card ===== */
+  .checklist-group {
+    background: var(--card);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 24px;
+    transition: border-color 120ms linear;
+  }
+  .checklist-group[data-complete="true"] {
+    border-color: var(--eligible-border);
+  }
+  .checklist-group__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  .checklist-group__icon {
+    color: var(--primary);
+    flex-shrink: 0;
+  }
+  .checklist-group__title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
+    margin: 0;
+    flex: 1;
+  }
+  .checklist-group__count {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted-foreground);
+    flex-shrink: 0;
+  }
+  .checklist-group__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: var(--eligible-bg);
+    color: var(--eligible-text);
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .checklist-group__description {
+    margin: 0 0 12px;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--muted-foreground);
+  }
+  .checklist-group__items {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== Checklist item row ===== */
+  .checklist-item {
+    border-top: 1px solid var(--border);
+    padding: 8px 0;
+  }
+  .checklist-item:first-child {
+    border-top: 0;
+  }
+  .checklist-item__row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 48px;
+  }
+  .checklist-item__label {
+    flex: 1;
+    font-size: 15px;
+    line-height: 22px;
+    color: var(--foreground);
+    cursor: pointer;
+    transition: color 120ms linear;
+  }
+  .checklist-item[data-checked="true"] .checklist-item__label {
+    color: var(--muted-foreground);
+  }
+  .checklist-item__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    color: var(--fg-link);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 120ms linear;
+    flex-shrink: 0;
+  }
+  .checklist-item__toggle:hover {
+    background: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .checklist-item__toggle:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  .checklist-item__chevron {
+    transition: transform 120ms linear;
+  }
+  .checklist-item__chevron--open {
+    transform: rotate(180deg);
+  }
+  .checklist-item__toggle-label {
+    /* keep visible on desktop; collapsible on narrow screens via media query */
+  }
+  .checklist-item__helper {
+    margin: 8px 0 4px 32px;   /* indent past the checkbox + gap */
+    padding: 12px 16px;
+    background: var(--muted);
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--muted-foreground);
+  }
+  .checklist-item__helper > p {
+    margin: 0;
+  }
+
+  /* ===== Completion banner (extends .banner--eligible) ===== */
+  .completion-banner {
+    margin-top: 24px;
+  }
+  .completion-banner__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 640px) {
+    .checklist-item__toggle-label {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+    .checklist-item__helper {
+      margin-left: 0;
+    }
   }
 
   /* ===== Next steps numbered list ===== */
@@ -2207,8 +2461,138 @@ html[data-theme="sa"].dark {
   }
 }
 
+/* =============================================================================
+   Print stylesheet — scoped to /carers/prepare via body:has(.page--prepare)
+   so it does not affect any other route. Renders a clean, A4-ready version
+   of the checklist with helper text always expanded and state communicated
+   without colour. Reset margins, hide chrome, switch to serif for legibility.
+   ============================================================================= */
+@media print {
+  body:has(.page--prepare) {
+    background: #fff !important;
+    color: #000 !important;
+    font-family: Georgia, serif !important;
+  }
+  @page {
+    margin: 20mm;
+  }
 
+  /* Hide site chrome, sticky progress, and any in-row controls */
+  body:has(.page--prepare) .site-header,
+  body:has(.page--prepare) .site-footer,
+  body:has(.page--prepare) .tool-rail,
+  body:has(.page--prepare) .listen-bar,
+  body:has(.page--prepare) .page__breadcrumb,
+  body:has(.page--prepare) .prepare__progress-wrap,
+  body:has(.page--prepare) .checklist-item__toggle,
+  body:has(.page--prepare) .completion-banner__actions,
+  body:has(.page--prepare) .page-rating,
+  body:has(.page--prepare) .page-meta {
+    display: none !important;
+  }
 
+  /* Reset layout — single full-width column on the page */
+  body:has(.page--prepare) .page--prepare .page__main {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
 
+  body:has(.page--prepare) .prepare__title {
+    font-family: Georgia, serif !important;
+    font-size: 22pt;
+    color: #000;
+    margin: 0 0 8pt;
+  }
+  body:has(.page--prepare) .prepare__intro {
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #000;
+    margin: 0 0 16pt;
+  }
+
+  /* Force every helper panel open regardless of its live UI state */
+  body:has(.page--prepare) .checklist-item__helper {
+    display: block !important;
+    background: transparent !important;
+    padding: 4pt 0 4pt 18pt;
+    color: #333 !important;
+    margin: 0 0 8pt 24pt;
+    font-size: 10pt;
+  }
+
+  /* Group cards become flat sections — no border, no shadow, no fill */
+  body:has(.page--prepare) .checklist-group {
+    background: transparent !important;
+    border: 0 !important;
+    border-top: 1pt solid #888 !important;
+    box-shadow: none !important;
+    padding: 12pt 0 8pt;
+    border-radius: 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  body:has(.page--prepare) .checklist-group__title {
+    font-family: Georgia, serif !important;
+    font-size: 14pt;
+    color: #000;
+  }
+  body:has(.page--prepare) .checklist-group__icon,
+  body:has(.page--prepare) .checklist-group__count,
+  body:has(.page--prepare) .checklist-group__badge {
+    display: none !important;
+  }
+  body:has(.page--prepare) .checklist-group__description {
+    color: #333 !important;
+    font-style: italic;
+    margin-bottom: 10pt;
+  }
+
+  /* Item rows — replace the live checkbox with a ■/☐ glyph so state
+     communicates without colour, suitable for B&W printing. */
+  body:has(.page--prepare) .checklist-item {
+    border-top: 0 !important;
+    padding: 4pt 0;
+    page-break-inside: avoid;
+  }
+  body:has(.page--prepare) .checklist-item__row > button[role="checkbox"],
+  body:has(.page--prepare) .checklist-item__row > [role="checkbox"] {
+    display: none !important;
+  }
+  body:has(.page--prepare) .checklist-item__label {
+    color: #000 !important;
+    font-size: 11pt;
+  }
+  body:has(.page--prepare) .checklist-item__label::before {
+    display: inline-block;
+    width: 14pt;
+    margin-right: 4pt;
+    font-family: "Lucida Console", Monaco, monospace;
+  }
+  body:has(.page--prepare) .checklist-item[data-checked="true"] .checklist-item__label::before {
+    content: "■";
+  }
+  body:has(.page--prepare) .checklist-item[data-checked="false"] .checklist-item__label::before {
+    content: "☐";
+  }
+
+  /* Completion banner — keep the message, drop the colour fill */
+  body:has(.page--prepare) .completion-banner {
+    background: transparent !important;
+    border: 1pt solid #000 !important;
+    border-radius: 0 !important;
+    padding: 12pt !important;
+    color: #000 !important;
+    margin-top: 16pt;
+  }
+  body:has(.page--prepare) .completion-banner .banner__icon {
+    display: none !important;
+  }
+  body:has(.page--prepare) .completion-banner .banner__title {
+    font-family: Georgia, serif !important;
+    color: #000 !important;
+    font-size: 14pt;
+  }
+}
 
 

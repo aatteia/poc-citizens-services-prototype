@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Search } from "lucide-react";
 
 import { MobileMenuButton } from "@/components/layout/mobile-menu-button";
@@ -9,32 +12,66 @@ import { ThemeToggle } from "@/components/layout/theme-toggle";
  * Header chrome mirroring servicesaustralia.gov.au (2026 redesign):
  *   row 1 (cyan):    wordmark  |  theme toggle · search · myGov · Sign in
  *                                  "Create account · Online help"
- *   row 2 (white):   primary nav   — Individuals (active) / Health professionals / Businesses / Community groups
- *   row 3 (white-2): secondary nav — Families (active) / Work / Housing / Health / Carers / Study
+ *   row 2 (white):   primary nav   — Individuals (always active)
+ *   row 3 (white-2): secondary nav — Families · Carers active by route
  *
- * Search, myGov, Sign in and the nav links are all non-functional href="#"
- * stubs in this prototype — they exist for visual fidelity only.
+ * Active-state logic:
+ *   - Primary nav: Individuals is always the active item (the whole
+ *     prototype lives inside the Individuals audience context).
+ *   - Secondary nav: Families is active on `/` and `/check/**`,
+ *     Carers is active on `/carers/**`. No item is active on the
+ *     component library page (`/components`).
+ *
+ * Non-functional items render as <span aria-disabled> with a native
+ * title-attribute tooltip — they are visually present so the prototype
+ * communicates the IA of the real site, but inert.
  */
 
-type NavItem = { label: string; href: string; current?: boolean };
+type FunctionalNavItem = {
+  label: string;
+  href: string;
+  matches?: readonly string[];
+  alwaysCurrent?: boolean;
+};
+type DisabledNavItem = { label: string; disabled: true };
+type NavItem = FunctionalNavItem | DisabledNavItem;
 
 const primaryNav: readonly NavItem[] = [
-  { label: "Individuals", href: "/", current: true },
-  { label: "Health professionals", href: "#" },
-  { label: "Businesses", href: "#" },
-  { label: "Community groups", href: "#" },
+  { label: "Individuals", href: "/", alwaysCurrent: true },
+  { label: "Health professionals", disabled: true },
+  { label: "Businesses", disabled: true },
+  { label: "Community groups", disabled: true },
 ];
 
 const secondaryNav: readonly NavItem[] = [
-  { label: "Families", href: "/", current: true },
-  { label: "Work", href: "#" },
-  { label: "Housing", href: "#" },
-  { label: "Health", href: "#" },
-  { label: "Carers", href: "#" },
-  { label: "Study", href: "#" },
+  { label: "Families", href: "/", matches: ["/", "/check"] },
+  { label: "Work", disabled: true },
+  { label: "Housing", disabled: true },
+  { label: "Health", disabled: true },
+  { label: "Carers", href: "/carers", matches: ["/carers"] },
+  { label: "Study", disabled: true },
 ];
 
+const DISABLED_TITLE = "This section is not part of this prototype";
+
+function isFunctional(item: NavItem): item is FunctionalNavItem {
+  return !("disabled" in item);
+}
+
+function matchesPathname(
+  matches: readonly string[] | undefined,
+  pathname: string,
+) {
+  if (!matches) return false;
+  return matches.some((m) => {
+    if (m === "/") return pathname === "/";
+    return pathname === m || pathname.startsWith(m + "/");
+  });
+}
+
 export function SiteHeader() {
+  const pathname = usePathname() ?? "/";
+
   return (
     <header className="site-header">
       {/* ===== Row 1: cyan band ===== */}
@@ -111,13 +148,28 @@ export function SiteHeader() {
           <ul className="site-nav-primary__list">
             {primaryNav.map((item) => (
               <li key={item.label}>
-                <Link
-                  href={item.href}
-                  className="site-nav-primary__link"
-                  aria-current={item.current ? "page" : undefined}
-                >
-                  {item.label}
-                </Link>
+                {isFunctional(item) ? (
+                  <Link
+                    href={item.href}
+                    className="site-nav-primary__link"
+                    aria-current={
+                      item.alwaysCurrent ||
+                      matchesPathname(item.matches, pathname)
+                        ? "page"
+                        : undefined
+                    }
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <span
+                    className="site-nav-primary__link site-nav-primary__link--disabled"
+                    title={DISABLED_TITLE}
+                    aria-disabled="true"
+                  >
+                    {item.label}
+                  </span>
+                )}
               </li>
             ))}
           </ul>
@@ -130,13 +182,27 @@ export function SiteHeader() {
           <ul className="site-nav-secondary__list">
             {secondaryNav.map((item) => (
               <li key={item.label}>
-                <Link
-                  href={item.href}
-                  className="site-nav-secondary__link"
-                  aria-current={item.current ? "page" : undefined}
-                >
-                  {item.label}
-                </Link>
+                {isFunctional(item) ? (
+                  <Link
+                    href={item.href}
+                    className="site-nav-secondary__link"
+                    aria-current={
+                      matchesPathname(item.matches, pathname)
+                        ? "page"
+                        : undefined
+                    }
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <span
+                    className="site-nav-secondary__link site-nav-secondary__link--disabled"
+                    title={DISABLED_TITLE}
+                    aria-disabled="true"
+                  >
+                    {item.label}
+                  </span>
+                )}
               </li>
             ))}
           </ul>

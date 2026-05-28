@@ -1,7 +1,7 @@
 /**
- * Shared navigation data used by the homepage and result pages
- * to keep the left side-rail sibling list consistent across all
- * informational pages in the Families section.
+ * Shared navigation data used by the side-rail across both scenarios.
+ * Keeps sibling-page lists consistent across all informational pages
+ * within a given Services Australia section.
  */
 
 export const familyPayments = [
@@ -12,4 +12,10 @@ export const familyPayments = [
   { label: "Newborn Upfront Payment and Newborn Supplement", href: "#" },
   { label: "Dad and Partner Pay", href: "#" },
   { label: "Stillborn Baby Payment", href: "#" },
+] as const;
+
+export const carerPayments = [
+  { label: "Carer Payment", href: "/carers", current: true },
+  { label: "Carer Allowance", href: "#" },
+  { label: "Carer Gateway", href: "#" },
 ] as const;
