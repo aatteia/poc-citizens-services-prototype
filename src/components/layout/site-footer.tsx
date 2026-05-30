@@ -1,17 +1,19 @@
 import Link from "next/link";
 import { Globe } from "lucide-react";
 
+import { BRAND_NAME } from "@/lib/brand";
+
 /**
- * Footer chrome matching servicesaustralia.gov.au:
- *   - 5 link columns (Services Australia, Contact, Businesses, Community
- *     groups, Health professionals)
+ * Footer chrome (2026 gov redesign pattern):
+ *   - 5 link columns (brand, Contact, Businesses, Community groups,
+ *     Health professionals)
  *   - Languages chip + social-follow icons row
  *   - Meta links (Privacy, Site notices, Accessibility, Access to
  *     information, Accessing our services, plus the prototype's Design
  *     System page link)
  *   - Acknowledgement of Country with a second coat-of-arms + wordmark
  *   - A loud "Prototype only" disclaimer so the footer never reads as
- *     impersonation of an official Services Australia surface
+ *     an impersonation of an official government surface
  */
 
 const linkColumns: Array<{
@@ -19,7 +21,7 @@ const linkColumns: Array<{
   links: Array<{ label: string; href: string }>;
 }> = [
   {
-    heading: "Services Australia",
+    heading: BRAND_NAME,
     links: [
       { label: "About us", href: "#" },
       { label: "Careers", href: "#" },
@@ -125,7 +127,7 @@ export function SiteFooter() {
                 <li key={label}>
                   <a
                     href="#"
-                    aria-label={`Follow Services Australia on ${label}`}
+                    aria-label={`Follow ${BRAND_NAME} on ${label}`}
                     className="site-footer__social-link"
                   >
                     <Icon size={20} aria-hidden="true" />
@@ -157,9 +159,9 @@ export function SiteFooter() {
               ),
             )}
           </ul>
-          <p className="site-footer__abn">ABN — 90 794 605 008</p>
+          <p className="site-footer__abn">ABN — 00 000 000 000</p>
           <p className="site-footer__prototype" role="note">
-            Prototype only — not an official Services Australia service.
+            Prototype only — not a real government service.
           </p>
         </div>
 
@@ -170,7 +172,7 @@ export function SiteFooter() {
           <Link
             href="/"
             className="site-footer__ack-brand"
-            aria-label="Services Australia — home"
+            aria-label={`${BRAND_NAME} — home`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -181,10 +183,10 @@ export function SiteFooter() {
               height={62}
               className="site-footer__ack-logo"
             />
-            <span className="site-footer__ack-wordmark">Services Australia</span>
+            <span className="site-footer__ack-wordmark">{BRAND_NAME}</span>
           </Link>
           <p className="site-footer__ack-text">
-            Services Australia acknowledges the Traditional Custodians of the
+            {BRAND_NAME} acknowledges the Traditional Custodians of the
             lands we live on. We pay our respects to all Elders, past and
             present, of all Aboriginal and Torres Strait Islander nations.
           </p>

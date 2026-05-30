@@ -4,13 +4,13 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 /**
- * SA / Attica button.
+ * Button.
  *
- * Hierarchy:  primary (filled SA navy) · secondary (outlined) · tertiary (text) · destructive (Attica error)
+ * Hierarchy:  primary (filled navy) · secondary (outlined) · tertiary (text) · destructive (error)
  * Sizes:      sm (32px h) · default (40px h) · lg (48px h, used on full-bleed CTAs)
  *
- * Shape comes from Attica: pill (radius 200px), Roboto 700, 0.5px letter-spacing.
- * Colour comes from SA: --primary navy, --ring SA action-blue focus ring.
+ * Shape:  pill (radius 200px), Roboto 700, 0.5px letter-spacing.
+ * Colour: --primary navy, --ring action-blue focus ring.
  */
 const buttonVariants = cva(
   [

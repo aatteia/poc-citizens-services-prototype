@@ -7,7 +7,7 @@ import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * Attica / SA checkbox built on Base UI's Checkbox primitive — same library
+ * Checkbox built on Base UI's Checkbox primitive — same library
  * the Collapsible already uses. Accessibility (label association, keyboard
  * activation via Space, focus management) is handled by the primitive.
  *

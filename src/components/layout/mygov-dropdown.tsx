@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 /**
- * myGov sign-in dropdown, matching the Services Australia header pattern.
+ * myGov sign-in dropdown, matching the government header pattern.
  *
  * Anatomy (top → bottom):
  *   [header]   myGov logo  |  "Individuals" heading + description

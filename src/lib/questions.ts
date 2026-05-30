@@ -3,6 +3,8 @@
  * Copy is the single source of truth — also referenced by the answer summary.
  */
 
+import { BRAND_NAME } from "@/lib/brand";
+
 export type QuestionId = "q1" | "q2" | "q3" | "q4" | "q5" | "q6";
 
 export interface QuestionOption {
@@ -71,8 +73,7 @@ export const questions: readonly Question[] = [
       {
         value: "not-sure",
         label: "I'm not sure",
-        callout:
-          "If you're not sure, use the Payment and Service Finder on the Services Australia website to estimate your income before you claim.",
+        callout: `If you're not sure, use the Payment and Service Finder on the ${BRAND_NAME} website to estimate your income before you claim.`,
       },
     ],
   },
@@ -80,7 +81,7 @@ export const questions: readonly Question[] = [
     id: "q5",
     step: 5,
     shortLabel: "Current payments",
-    legend: "Are you currently receiving a Services Australia payment?",
+    legend: `Are you currently receiving a ${BRAND_NAME} payment?`,
     helperText:
       "This includes payments such as JobSeeker, Family Tax Benefit, Carer Payment, or Age Pension.",
     options: [

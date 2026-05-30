@@ -3,7 +3,7 @@
 /* =============================================================================
    Layer 1 — Attica raw palette + structural tokens
    Verbatim from Attica Design System 2.0 (AEC) — colors_and_type.css.
-   Eminence purple is kept for completeness even though SA navy replaces it
+   Eminence purple is kept for completeness even though navy replaces it
    as --primary; downstream code can still reach for any raw ramp.
    ============================================================================= */
 :root {
@@ -73,7 +73,7 @@
   --black-25:  #F3F3F3;
   --white:     #FFFFFF;
 
-  /* Attica semantic ramps (kept for direct use by banners) */
+  /* Semantic colour ramps (kept for direct use by banners) */
   --info-600:    #265C97;
   --info-500:    #2370BE;
   --info-100:    #EBF3FB;
@@ -90,7 +90,7 @@
   --error-500:   #B01F13;
   --error-100:   #FBEFEC;
 
-  /* Spacing scale (4 px base, Attica) */
+  /* Spacing scale (4 px base) */
   --space-xx-sm:   4px;
   --space-x-sm:    8px;
   --space-sm:     12px;
@@ -106,14 +106,14 @@
   --space-huge:   96px;
   --space-x-huge:128px;
 
-  /* Radii (Attica) */
+  /* Radii */
   --radius-xs:   4px;
   --radius-sm:   8px;
   --radius-md:  12px;
   --radius-lg:  16px;
   --radius-pill: 200px;
 
-  /* Elevation (Attica) */
+  /* Elevation */
   --shadow-xs: 0px 2px 4px 0px rgba(0,0,0,0.10);
   --shadow-sm: 0px 4px 8px 0px rgba(0,0,0,0.10);
   --shadow-md: 0px 8px 16px 0px rgba(0,0,0,0.10);
@@ -129,14 +129,14 @@
 }
 
 /* =============================================================================
-   Layer 2 — SA theme: shadcn semantic tokens bound to SA navy + Attica neutrals
+   Layer 2 — theme: shadcn semantic tokens bound to navy primary + neutral ramps
    Block shape matches html[data-theme="health|nsw|civictheme"] in
    aatteia/shadcn-gov-themes so this can be lifted in as a fourth theme later.
    Both --color-* and bare -- forms are written because shadcn components
    reach for the bare form while Tailwind v4's @theme inline expects --color-*.
    ============================================================================= */
 html[data-theme="sa"] {
-  --radius: 0.5rem; /* 8px — Attica card radius */
+  --radius: 0.5rem; /* 8px — card radius */
 
   /* Surfaces */
   --background: #FFFFFF;          --color-background: #FFFFFF;
@@ -146,15 +146,15 @@ html[data-theme="sa"] {
   --popover: #FFFFFF;             --color-popover: #FFFFFF;
   --popover-foreground: #1A1A1A;  --color-popover-foreground: #1A1A1A;
 
-  /* Primary — SA navy */
+  /* Primary — navy */
   --primary: #1B4F72;             --color-primary: #1B4F72;
   --primary-foreground: #FFFFFF;  --color-primary-foreground: #FFFFFF;
 
-  /* Secondary — light SA blue tint */
+  /* Secondary — light blue tint */
   --secondary: #E8F4FD;           --color-secondary: #E8F4FD;
   --secondary-foreground: #1B4F72;--color-secondary-foreground: #1B4F72;
 
-  /* Muted — Attica nobel-50 surfaces */
+  /* Muted — nobel-50 surfaces */
   --muted: #F5F5F5;               --color-muted: #F5F5F5;
   --muted-foreground: #5C5C5C;    --color-muted-foreground: #5C5C5C;
 
@@ -162,7 +162,7 @@ html[data-theme="sa"] {
   --accent: #E8F4FD;              --color-accent: #E8F4FD;
   --accent-foreground: #1B4F72;   --color-accent-foreground: #1B4F72;
 
-  /* Destructive — Attica error-500 */
+  /* Destructive — error-500 */
   --destructive: #B01F13;         --color-destructive: #B01F13;
   --destructive-foreground: #FFFFFF; --color-destructive-foreground: #FFFFFF;
 
@@ -174,10 +174,10 @@ html[data-theme="sa"] {
   --border-strong: #767676;       --color-border-strong: #767676;
   --input:         #757575;       --color-input:         #757575;
 
-  /* Focus ring — SA action blue */
+  /* Focus ring — action blue */
   --ring: #005EA2;                --color-ring: #005EA2;
 
-  /* SA brand helpers — outside the shadcn vocab but used by custom UI */
+  /* Brand helpers — outside the shadcn vocab but used by custom UI */
   --primary-hover:  #154060;
   --primary-active: #0F2D47;
   --fg-link:        #005EA2;
@@ -253,7 +253,7 @@ html[data-theme="sa"].dark {
   --nav-hover-bg:  #161B22;
   --nav-secondary-bg: #0F151B;
 
-  /* Header band flips to dark in dark mode — matches the official SA dark-mode
+  /* Header band flips to dark in dark mode — matches the official dark-mode
      treatment. Reuses existing dark tokens rather than introducing new values. */
   --header-bg:      #0C1116;                    /* = --background */
   --header-fg:      #E8EAED;                    /* = --foreground */
@@ -302,7 +302,7 @@ html[data-theme="sa"].dark {
   --font-sans: var(--font-open-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-heading: var(--font-roboto), var(--font-open-sans), system-ui, sans-serif;
 
-  /* Container width for the SA content grid */
+  /* Container width for the content grid */
   --container-width: 1280px;
 }
 
@@ -1491,15 +1491,15 @@ html[data-theme="sa"].dark {
   }
 
   /* =============================================================================
-     Session 2 — Carer Payment "Prepare to claim" checklist
+     Carer Payment "Prepare to claim" checklist
      ============================================================================= */
 
   /* Prepare page layout — full-width single content column (no side rail) */
   .page--prepare .page__main {
     max-width: 768px;
     margin: 0 auto;
-    padding-top: 16px;
-    padding-bottom: 48px;
+    padding-top: 32px;
+    padding-bottom: 64px;
   }
   .page--prepare .page__breadcrumb {
     max-width: 768px;
@@ -1524,7 +1524,7 @@ html[data-theme="sa"].dark {
     font-size: 17px;
     line-height: 26px;
     color: var(--foreground);
-    margin: 0 0 32px;
+    margin: 24px 0 32px;
   }
   .prepare__groups {
     display: flex;
@@ -1537,7 +1537,7 @@ html[data-theme="sa"].dark {
     font-size: 36px;
     line-height: 44px;
     letter-spacing: -0.01em;
-    margin: 16px 0 12px;
+    margin: 0 0 24px;
   }
 
   /* ===== Progress summary bar ===== */
@@ -1625,6 +1625,13 @@ html[data-theme="sa"].dark {
     font-size: 14px;
     line-height: 20px;
     color: var(--muted-foreground);
+  }
+  .checklist-group__requirement {
+    margin: -4px 0 12px;
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 600;
+    color: var(--primary);
   }
   .checklist-group__items {
     display: flex;

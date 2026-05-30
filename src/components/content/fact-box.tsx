@@ -6,7 +6,7 @@ interface FactBoxProps {
 }
 
 /**
- * Light SA-blue tinted box with a 4px left navy border.
+ * Light blue tinted box with a 4px left navy border.
  * Used on the overview key-facts panel and on the eligible result payment range.
  */
 export function FactBox({ title, children }: FactBoxProps) {

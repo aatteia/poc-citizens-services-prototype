@@ -9,11 +9,14 @@
 interface ProgressSummaryBarProps {
   completed: number;
   total: number;
+  /** Noun for what's being counted, e.g. "items" or "sections". */
+  unit?: string;
 }
 
 export function ProgressSummaryBar({
   completed,
   total,
+  unit = "items",
 }: ProgressSummaryBarProps) {
   const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
 
@@ -28,7 +31,7 @@ export function ProgressSummaryBar({
         <span className="progress-summary__count">
           {completed} of {total}
         </span>{" "}
-        items ready
+        {unit} ready
       </p>
       <div
         className="progress-summary__track"

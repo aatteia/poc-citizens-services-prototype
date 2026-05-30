@@ -10,6 +10,7 @@ import { FactBox, FactBoxItem, FactBoxList } from "@/components/content/fact-box
 import { PageMeta } from "@/components/content/page-meta";
 import { PageRating } from "@/components/feedback/page-rating";
 import { StatusBanner } from "@/components/feedback/status-banner";
+import { BRAND_NAME } from "@/lib/brand";
 import { AnswerSummary } from "@/components/flow/answer-summary";
 import { NextStepsList } from "@/components/flow/next-steps-list";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -89,7 +90,7 @@ export default function EligibleResult() {
               title="Based on your answers, you may be eligible for Parenting Payment."
             >
               <p>
-                This isn&rsquo;t a guarantee — Services Australia will check the
+                This isn&rsquo;t a guarantee — {BRAND_NAME} will check the
                 full details when you claim through myGov.
               </p>
             </StatusBanner>

@@ -6,6 +6,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { BRAND_NAME } from "@/lib/brand";
+
 export interface ChecklistItemConfig {
   id: number;
   label: string;
@@ -18,12 +20,25 @@ export interface ChecklistGroupConfig {
   description: string;
   icon: LucideIcon;
   items: readonly ChecklistItemConfig[];
+  /**
+   * Minimum number of items the user must tick for this section to count
+   * as "ready". Any combination of items satisfies it — no specific item
+   * is mandatory. Set equal to `items.length` for sections where every
+   * item is genuinely required. Must be 1 <= requiredCount <= items.length.
+   */
+  requiredCount: number;
 }
 
 /**
  * Carer Payment "prepare to claim" checklist content.
  * 4 groups, 12 items total. Item ids are stable integers 1-12 used as
  * keys in the parent page's useState<Record<number, boolean>>.
+ *
+ * Readiness is tracked per section, not per item: a section is "ready"
+ * once its `requiredCount` is met (see `isGroupReady`), and the page is
+ * ready to claim once all 4 sections are ready. Some sections accept a
+ * subset of their items (e.g. Identity needs any 3 of 4); others require
+ * every item (e.g. Caring arrangement needs both).
  */
 export const carerChecklist: readonly ChecklistGroupConfig[] = [
   {
@@ -32,6 +47,7 @@ export const carerChecklist: readonly ChecklistGroupConfig[] = [
     description:
       "You'll need to prove who you are when you submit your claim.",
     icon: IdCard,
+    requiredCount: 3,
     items: [
       {
         id: 1,
@@ -65,6 +81,7 @@ export const carerChecklist: readonly ChecklistGroupConfig[] = [
     description:
       "Centrelink needs to understand the care situation to assess your eligibility.",
     icon: HeartHandshake,
+    requiredCount: 2,
     items: [
       {
         id: 5,
@@ -92,6 +109,7 @@ export const carerChecklist: readonly ChecklistGroupConfig[] = [
     description:
       "Carer Payment is means tested. You'll need to declare your income and assets.",
     icon: ReceiptText,
+    requiredCount: 2,
     items: [
       {
         id: 8,
@@ -109,7 +127,7 @@ export const carerChecklist: readonly ChecklistGroupConfig[] = [
         id: 10,
         label: "Asset information (savings, property, vehicles)",
         helper:
-          "Centrelink applies an assets test. List the approximate value of your savings, any property you own (other than your home), and vehicles. Your family home is exempt. The full assets test thresholds are available on the Services Australia website.",
+          `Centrelink applies an assets test. List the approximate value of your savings, any property you own (other than your home), and vehicles. Your family home is exempt. The full assets test thresholds are available on the ${BRAND_NAME} website.`,
       },
     ],
   },
@@ -119,6 +137,7 @@ export const carerChecklist: readonly ChecklistGroupConfig[] = [
     description:
       "You'll need to describe how and when you provide care.",
     icon: CalendarCheck,
+    requiredCount: 2,
     items: [
       {
         id: 11,
@@ -136,4 +155,25 @@ export const carerChecklist: readonly ChecklistGroupConfig[] = [
   },
 ] as const;
 
-export const CHECKLIST_TOTAL = 12;
+/** Number of sections — the unit the progress bar now tracks. */
+export const SECTION_TOTAL = carerChecklist.length;
+
+/** Items ticked within a group, given the page's checked-state map. */
+export function countCheckedInGroup(
+  group: ChecklistGroupConfig,
+  checked: Record<number, boolean>,
+): number {
+  return group.items.filter((item) => checked[item.id]).length;
+}
+
+/**
+ * A section is ready once at least `requiredCount` of its items are
+ * ticked. Single source of truth shared by the group card and the page
+ * so their notions of "done" never drift apart.
+ */
+export function isGroupReady(
+  group: ChecklistGroupConfig,
+  checked: Record<number, boolean>,
+): boolean {
+  return countCheckedInGroup(group, checked) >= group.requiredCount;
+}

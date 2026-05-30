@@ -4,6 +4,7 @@ import { ListenBar } from "@/components/layout/listen-bar";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ToolRail } from "@/components/layout/tool-rail";
+import { BRAND_NAME } from "@/lib/brand";
 import "./globals.css";
 
 const roboto = localFont({
@@ -41,7 +42,9 @@ const openSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Parenting Payment — Services Australia (prototype)",
+  title: `Parenting Payment — ${BRAND_NAME} (prototype)`,
+  // Description intentionally keeps the real role/department context — it
+  // describes the portfolio piece, not the in-prototype brand.
   description:
     "Check if you may be eligible for Parenting Payment. Prototype for the Services Australia Lead Interaction Designer role.",
 };

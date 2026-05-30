@@ -1,7 +1,7 @@
 /**
  * Shared navigation data used by the side-rail across both scenarios.
  * Keeps sibling-page lists consistent across all informational pages
- * within a given Services Australia section.
+ * within a given section.
  */
 
 export const familyPayments = [

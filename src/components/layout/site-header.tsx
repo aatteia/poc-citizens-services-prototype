@@ -7,56 +7,49 @@ import { Search } from "lucide-react";
 import { MobileMenuButton } from "@/components/layout/mobile-menu-button";
 import { MyGovDropdown } from "@/components/layout/mygov-dropdown";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { BRAND_NAME } from "@/lib/brand";
 
 /**
- * Header chrome mirroring servicesaustralia.gov.au (2026 redesign):
+ * Header chrome (2026 gov redesign pattern):
  *   row 1 (cyan):    wordmark  |  theme toggle · search · myGov · Sign in
  *                                  "Create account · Online help"
- *   row 2 (white):   primary nav   — Individuals (always active)
+ *   row 2 (white):   primary nav   — Individuals · Design system
  *   row 3 (white-2): secondary nav — Families · Carers active by route
  *
- * Active-state logic:
- *   - Primary nav: Individuals is always the active item (the whole
- *     prototype lives inside the Individuals audience context).
- *   - Secondary nav: Families is active on `/` and `/check/**`,
- *     Carers is active on `/carers/**`. No item is active on the
- *     component library page (`/components`).
+ * The nav is simplified to interactive items only (no inert/disabled
+ * entries). Both Families and Carers live under Individuals; the Design
+ * system showcase is surfaced as its own primary item.
  *
- * Non-functional items render as <span aria-disabled> with a native
- * title-attribute tooltip — they are visually present so the prototype
- * communicates the IA of the real site, but inert.
+ * Active-state logic (exactly one current item per nav):
+ *   - An item is current when its `matches` hit the pathname.
+ *   - If no primary item matches, the `defaultCurrent` item (Individuals)
+ *     is current. This is what keeps Individuals lit on `/`, `/check/**`
+ *     and `/carers/**` while letting Design system take over on
+ *     `/components/**` without both showing aria-current.
+ *   - The secondary strip belongs to the Individuals section only, so it
+ *     is hidden whenever the Design system section is active.
  */
 
-type FunctionalNavItem = {
+type NavItem = {
   label: string;
   href: string;
   matches?: readonly string[];
-  alwaysCurrent?: boolean;
+  /** Current when nothing else in the same nav matches the pathname. */
+  defaultCurrent?: boolean;
 };
-type DisabledNavItem = { label: string; disabled: true };
-type NavItem = FunctionalNavItem | DisabledNavItem;
 
 const primaryNav: readonly NavItem[] = [
-  { label: "Individuals", href: "/", alwaysCurrent: true },
-  { label: "Health professionals", disabled: true },
-  { label: "Businesses", disabled: true },
-  { label: "Community groups", disabled: true },
+  { label: "Individuals", href: "/", defaultCurrent: true },
+  { label: "Design system", href: "/components", matches: ["/components"] },
 ];
 
 const secondaryNav: readonly NavItem[] = [
   { label: "Families", href: "/", matches: ["/", "/check"] },
-  { label: "Work", disabled: true },
-  { label: "Housing", disabled: true },
-  { label: "Health", disabled: true },
   { label: "Carers", href: "/carers", matches: ["/carers"] },
-  { label: "Study", disabled: true },
 ];
 
-const DISABLED_TITLE = "This section is not part of this prototype";
-
-function isFunctional(item: NavItem): item is FunctionalNavItem {
-  return !("disabled" in item);
-}
+/** Primary section that owns the Families/Carers secondary strip. */
+const SECONDARY_NAV_SECTION = "Individuals";
 
 function matchesPathname(
   matches: readonly string[] | undefined,
@@ -69,8 +62,27 @@ function matchesPathname(
   });
 }
 
+/**
+ * Resolve which item in a nav is current. An explicit `matches` hit wins;
+ * otherwise the `defaultCurrent` item is the fallback. Returns the label
+ * of the current item (or null) so callers can both set aria-current and
+ * decide section-dependent rendering.
+ */
+function currentNavLabel(
+  items: readonly NavItem[],
+  pathname: string,
+): string | null {
+  const matched = items.find((item) => matchesPathname(item.matches, pathname));
+  if (matched) return matched.label;
+  return items.find((item) => item.defaultCurrent)?.label ?? null;
+}
+
 export function SiteHeader() {
   const pathname = usePathname() ?? "/";
+
+  const currentPrimary = currentNavLabel(primaryNav, pathname);
+  const currentSecondary = currentNavLabel(secondaryNav, pathname);
+  const showSecondaryNav = currentPrimary === SECONDARY_NAV_SECTION;
 
   return (
     <header className="site-header">
@@ -79,7 +91,7 @@ export function SiteHeader() {
         <Link
           href="/"
           className="site-header__wordmark"
-          aria-label="Services Australia — home"
+          aria-label={`${BRAND_NAME} — home`}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -90,7 +102,7 @@ export function SiteHeader() {
             height={67}
             className="site-header__logo"
           />
-          <span className="site-header__brand">Services Australia</span>
+          <span className="site-header__brand">{BRAND_NAME}</span>
         </Link>
 
         <div className="site-header__utility">
@@ -100,7 +112,7 @@ export function SiteHeader() {
             <div
               role="search"
               className="site-header__search"
-              aria-label="Search Services Australia (non-functional in prototype)"
+              aria-label={`Search ${BRAND_NAME} (non-functional in prototype)`}
             >
               <label htmlFor="site-search" className="sr-only">
                 Search
@@ -148,66 +160,43 @@ export function SiteHeader() {
           <ul className="site-nav-primary__list">
             {primaryNav.map((item) => (
               <li key={item.label}>
-                {isFunctional(item) ? (
-                  <Link
-                    href={item.href}
-                    className="site-nav-primary__link"
-                    aria-current={
-                      item.alwaysCurrent ||
-                      matchesPathname(item.matches, pathname)
-                        ? "page"
-                        : undefined
-                    }
-                  >
-                    {item.label}
-                  </Link>
-                ) : (
-                  <span
-                    className="site-nav-primary__link site-nav-primary__link--disabled"
-                    title={DISABLED_TITLE}
-                    aria-disabled="true"
-                  >
-                    {item.label}
-                  </span>
-                )}
+                <Link
+                  href={item.href}
+                  className="site-nav-primary__link"
+                  aria-current={
+                    item.label === currentPrimary ? "page" : undefined
+                  }
+                >
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>
         </div>
       </nav>
 
-      {/* ===== Row 3: secondary contextual nav ===== */}
-      <nav aria-label="Section" className="site-nav-secondary">
-        <div className="site-nav-secondary__inner">
-          <ul className="site-nav-secondary__list">
-            {secondaryNav.map((item) => (
-              <li key={item.label}>
-                {isFunctional(item) ? (
+      {/* ===== Row 3: secondary contextual nav (Individuals section only) ===== */}
+      {showSecondaryNav && (
+        <nav aria-label="Section" className="site-nav-secondary">
+          <div className="site-nav-secondary__inner">
+            <ul className="site-nav-secondary__list">
+              {secondaryNav.map((item) => (
+                <li key={item.label}>
                   <Link
                     href={item.href}
                     className="site-nav-secondary__link"
                     aria-current={
-                      matchesPathname(item.matches, pathname)
-                        ? "page"
-                        : undefined
+                      item.label === currentSecondary ? "page" : undefined
                     }
                   >
                     {item.label}
                   </Link>
-                ) : (
-                  <span
-                    className="site-nav-secondary__link site-nav-secondary__link--disabled"
-                    title={DISABLED_TITLE}
-                    aria-disabled="true"
-                  >
-                    {item.label}
-                  </span>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </nav>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </nav>
+      )}
     </header>
   );
 }

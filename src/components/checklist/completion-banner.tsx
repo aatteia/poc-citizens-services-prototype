@@ -6,7 +6,8 @@ import { CircleCheck, Printer } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 
 /**
- * Completion banner shown when all 12 checklist items are checked.
+ * Completion banner shown when every section has met its required item
+ * count (i.e. all sections are "ready" — not necessarily all 12 items).
  * Reuses the session-1 `.banner--eligible` styling so the green
  * "success" treatment is consistent across both scenarios.
  *

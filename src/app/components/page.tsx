@@ -7,17 +7,21 @@ import {
   FactBoxList,
 } from "@/components/content/fact-box";
 import { RelatedPaymentCard } from "@/components/content/related-payment-card";
+import { ChecklistGroupDemo } from "./checklist-group-demo";
+import { CompletionBanner } from "@/components/checklist/completion-banner";
 import { InfoCallout } from "@/components/feedback/info-callout";
 import { InlineError } from "@/components/feedback/inline-error";
+import { ProgressSummaryBar } from "@/components/checklist/progress-summary-bar";
 import { StatusBanner } from "@/components/feedback/status-banner";
 import { ProgressIndicator } from "@/components/flow/progress-indicator";
 import { Button } from "@/components/ui/button";
-import { Session2Section } from "./session-2-section";
+import { Section, Grid, Tile } from "./library-ui";
+import { BRAND_NAME } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "Design system — Parenting Payment prototype",
+  title: `Design system — ${BRAND_NAME} prototype`,
   description:
-    "Reference page showing every component used in the Parenting Payment eligibility prototype.",
+    "Reference page showing every component used across the prototype — the Parenting Payment eligibility flow and the Carer Payment claim checklist.",
 };
 
 const stepLabels = [
@@ -29,15 +33,22 @@ const stepLabels = [
   "Work or study",
 ];
 
+/**
+ * Design system reference for the whole prototype. Sections are grouped by
+ * role (inputs, progress, feedback, content, navigation, patterns) rather
+ * than by the order they were built — one continuous system.
+ *
+ * This page is a Server Component (it exports metadata). Demos built from
+ * client components render fine here as long as no Icon function refs cross
+ * the boundary as props — the one case that does (ChecklistGroup, fed from
+ * `carerChecklist`) lives in the ChecklistGroupDemo client module.
+ */
 export default function ComponentLibrary() {
   return (
     <div className="page library">
       <div className="page__breadcrumb">
         <Breadcrumb
-          items={[
-            { label: "Home", href: "/" },
-            { label: "Design system" },
-          ]}
+          items={[{ label: "Home", href: "/" }, { label: "Design system" }]}
         />
       </div>
 
@@ -45,15 +56,17 @@ export default function ComponentLibrary() {
         <p className="page__eyebrow">Reference</p>
         <h1 className="library__title">Design system</h1>
         <p className="library__intro">
-          Every component used in the Parenting Payment eligibility prototype.
-          Built on Attica Design System tokens with a Services Australia
-          colour reskin. ShadCN primitives on @base-ui/react.
+          Every component used across the prototype — from the Parenting
+          Payment eligibility flow to the Carer Payment claim checklist. Built
+          on government design tokens with a custom palette. ShadCN primitives
+          on @base-ui/react.
         </p>
       </header>
 
+      {/* ===== Inputs & controls ===== */}
       <Section id="buttons" title="Buttons">
         <p className="library__caption">
-          Pill radius (Attica) · SA navy primary · Roboto Bold · letter-spacing
+          Pill radius · navy primary · Roboto Bold · letter-spacing
           0.5px. Three hierarchies, three sizes, destructive modifier.
         </p>
         <Grid cols={3}>
@@ -112,10 +125,47 @@ export default function ComponentLibrary() {
         </Grid>
       </Section>
 
+      <Section id="checklist-item" title="Checklist item">
+        <p className="library__caption">
+          Single-row primitive: checkbox + label + &ldquo;Why do I need
+          this?&rdquo; collapsible helper. The label colour shifts to muted
+          when checked — no strikethrough, which fails for low-vision users.
+        </p>
+        <div className="library__stack">
+          <Tile label="Unchecked, helper collapsed">
+            <StaticChecklistItem
+              checked={false}
+              expanded={false}
+              label="Medicare card"
+              helper="Your Medicare card number links your health records to your Centrelink profile."
+            />
+          </Tile>
+          <Tile label="Checked, helper collapsed">
+            <StaticChecklistItem
+              checked={true}
+              expanded={false}
+              label="Medicare card"
+              helper="Your Medicare card number links your health records to your Centrelink profile."
+            />
+          </Tile>
+          <Tile label="Unchecked, helper expanded">
+            <StaticChecklistItem
+              checked={false}
+              expanded={true}
+              label="Medicare card"
+              helper="Your Medicare card number links your health records to your Centrelink profile. Make sure it's current and the name matches your other ID."
+            />
+          </Tile>
+        </div>
+      </Section>
+
+      <ChecklistGroupDemo />
+
+      {/* ===== Progress ===== */}
       <Section id="progress" title="Progress indicator">
         <p className="library__caption">
           Six-step segmented bar with labels. Completed and current segments
-          fill SA navy; upcoming segments remain grey. Mobile collapses to a
+          fill navy; upcoming segments remain grey. Mobile collapses to a
           text-only &ldquo;Step X of 6&rdquo;.
         </p>
         <Grid cols={2}>
@@ -131,6 +181,28 @@ export default function ComponentLibrary() {
         </Grid>
       </Section>
 
+      <Section id="progress-summary" title="Progress summary bar">
+        <p className="library__caption">
+          <code>role=&ldquo;status&rdquo;</code> with
+          <code> aria-live=&ldquo;polite&rdquo;</code> so screen readers
+          announce updates non-disruptively. On the prepare-to-claim page it
+          tracks how many of the four sections are ready; the navy fill width
+          transitions 200ms ease-out.
+        </p>
+        <div className="library__stack">
+          <Tile label="0 of 4 sections">
+            <ProgressSummaryBar completed={0} total={4} unit="sections" />
+          </Tile>
+          <Tile label="2 of 4 sections (50%)">
+            <ProgressSummaryBar completed={2} total={4} unit="sections" />
+          </Tile>
+          <Tile label="4 of 4 sections (100%)">
+            <ProgressSummaryBar completed={4} total={4} unit="sections" />
+          </Tile>
+        </div>
+      </Section>
+
+      {/* ===== Feedback & status ===== */}
       <Section id="banners" title="Status banners">
         <p className="library__caption">
           Eligible and info use <code>role=&ldquo;status&rdquo;</code>;
@@ -150,10 +222,7 @@ export default function ComponentLibrary() {
           >
             <p>You may still be eligible for other payments.</p>
           </StatusBanner>
-          <StatusBanner
-            variant="info"
-            title="Heads up — this is a prototype."
-          >
+          <StatusBanner variant="info" title="Heads up — this is a prototype.">
             <p>None of the buttons submit a real claim.</p>
           </StatusBanner>
           <StatusBanner
@@ -165,9 +234,43 @@ export default function ComponentLibrary() {
         </div>
       </Section>
 
+      <Section id="completion-banner" title="Completion banner">
+        <p className="library__caption">
+          Extends the eligible status-banner style for visual consistency.
+          <code> role=&ldquo;status&rdquo;</code> (not alert) — it appears when
+          every section is ready, a state the user reaches deliberately.
+        </p>
+        <CompletionBanner />
+      </Section>
+
+      <Section id="info-callout" title="Inline info callout">
+        <p className="library__caption">
+          Appears inline below a radio group on Q4 when the user picks
+          &ldquo;I&rsquo;m not sure&rdquo;.{" "}
+          <code>role=&ldquo;status&rdquo;</code>.
+        </p>
+        <InfoCallout>
+          <p>
+            If you&rsquo;re not sure, use the Payment and Service Finder on the
+            {" "}
+            {BRAND_NAME} website to estimate your income before you claim.
+          </p>
+        </InfoCallout>
+      </Section>
+
+      <Section id="inline-error" title="Inline error">
+        <p className="library__caption">
+          <code>role=&ldquo;alert&rdquo;</code>, addressable by id for
+          aria-describedby. Triggered when Continue is pressed without a
+          selection.
+        </p>
+        <InlineErrorStub />
+      </Section>
+
+      {/* ===== Content blocks ===== */}
       <Section id="fact-box" title="Fact box">
         <p className="library__caption">
-          Light SA-blue tint with a 4px left navy border. Used on the overview
+          Light blue tint with a 4px left navy border. Used on the overview
           and on the eligible result page.
         </p>
         <FactBox title="Key facts">
@@ -182,39 +285,14 @@ export default function ComponentLibrary() {
               value="Below $2,536.20 / fortnight"
               caption="Including family assistance."
             />
-            <FactBoxItem
-              label="Child age limit"
-              value="Single carers — under 8"
-            />
+            <FactBoxItem label="Child age limit" value="Single carers — under 8" />
           </FactBoxList>
         </FactBox>
       </Section>
 
-      <Section id="info-callout" title="Inline info callout">
-        <p className="library__caption">
-          Appears inline below a radio group on Q4 when the user picks
-          &ldquo;I&rsquo;m not sure&rdquo;. <code>role=&ldquo;status&rdquo;</code>.
-        </p>
-        <InfoCallout>
-          <p>
-            If you&rsquo;re not sure, use the Payment and Service Finder on the
-            Services Australia website to estimate your income before you claim.
-          </p>
-        </InfoCallout>
-      </Section>
-
-      <Section id="inline-error" title="Inline error">
-        <p className="library__caption">
-          <code>role=&ldquo;alert&rdquo;</code>, addressable by id for
-          aria-describedby. Triggered when Continue is pressed without a
-          selection.
-        </p>
-        <InlineErrorStub />
-      </Section>
-
       <Section id="related-cards" title="Related payment cards">
         <p className="library__caption">
-          Hover lifts the border to SA navy. Used on the ineligible result
+          Hover lifts the border to navy. Used on the ineligible result
           page.
         </p>
         <div className="result__related">
@@ -236,6 +314,7 @@ export default function ComponentLibrary() {
         </div>
       </Section>
 
+      {/* ===== Navigation & wayfinding ===== */}
       <Section id="breadcrumb" title="Breadcrumb">
         <p className="library__caption">
           Action-blue links, mid-grey separators. Last item is
@@ -254,8 +333,8 @@ export default function ComponentLibrary() {
       <Section id="skip-link" title="Skip to content link">
         <p className="library__caption">
           The first focusable element in the document. Visually hidden until
-          focused, then anchors to <code>#main</code>. Tab into the page
-          from this hostname to see it.
+          focused, then anchors to <code>#main</code>. Tab into the page from
+          this hostname to see it.
         </p>
         <div className="library__skip-preview">
           <span className="skip-link skip-link--preview">
@@ -267,67 +346,26 @@ export default function ComponentLibrary() {
         </div>
       </Section>
 
-      <Session2Section />
+      {/* ===== Patterns ===== */}
+      <Section id="print-stylesheet" title="Print stylesheet">
+        <p className="library__caption">
+          A print stylesheet at <code>/carers/prepare</code> renders the
+          checklist only — hiding header, nav, footer, progress bar, and the
+          &ldquo;Why do I need this?&rdquo; toggles. Helper text always
+          expanded. Checked state communicates via a ■ glyph before the label,
+          not green fill — works in black-and-white printing and for low-vision
+          users. <code>page-break-inside: avoid</code> on each group. 20mm
+          margins, Georgia serif body.
+        </p>
+      </Section>
     </div>
   );
 }
 
 /* =========================================================================
-   Local layout helpers — these only exist on this page.
+   Local static demos — render specific component states without the live
+   client state machinery. The real components live under src/components.
    ========================================================================= */
-
-function Section({
-  id,
-  title,
-  children,
-}: {
-  id: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section id={id} className="library__section" aria-labelledby={`${id}-title`}>
-      <h2 id={`${id}-title`} className="library__section-title">
-        {title}
-      </h2>
-      {children}
-    </section>
-  );
-}
-
-function Grid({
-  cols,
-  children,
-}: {
-  cols: 2 | 3;
-  children: React.ReactNode;
-}) {
-  return (
-    <div
-      className="library__grid"
-      data-cols={cols}
-    >
-      {children}
-    </div>
-  );
-}
-
-function Tile({
-  label,
-  wide,
-  children,
-}: {
-  label: string;
-  wide?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className={`library__tile${wide ? " library__tile--wide" : ""}`}>
-      <p className="library__tile-label">{label}</p>
-      <div className="library__tile-body">{children}</div>
-    </div>
-  );
-}
 
 /* Static rendering of RadioCard states so we can display them without a
    live RadioGroup driving state. The real component lives in
@@ -360,6 +398,69 @@ function StaticRadioCard({
       <span className="radio-card__copy">
         <span className="radio-card__label">{label}</span>
       </span>
+    </div>
+  );
+}
+
+/* Static rendering of a ChecklistItem row in a fixed checked/expanded state.
+   The interactive component (src/components/checklist/checklist-item.tsx)
+   owns its own collapse state, which we bypass here to show specific states. */
+function StaticChecklistItem({
+  checked,
+  expanded,
+  label,
+  helper,
+}: {
+  checked: boolean;
+  expanded: boolean;
+  label: string;
+  helper: string;
+}) {
+  return (
+    <div className="checklist-item" data-checked={checked ? "true" : "false"}>
+      <div className="checklist-item__row">
+        <span
+          aria-hidden="true"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 20,
+            height: 20,
+            flexShrink: 0,
+            borderRadius: 3,
+            border: "2px solid var(--border-strong)",
+            background: checked ? "var(--primary)" : "var(--background)",
+            color: "var(--primary-foreground)",
+            fontSize: 14,
+            lineHeight: 1,
+            fontWeight: 700,
+          }}
+        >
+          {checked ? "✓" : ""}
+        </span>
+        <span className="checklist-item__label">{label}</span>
+        <span
+          className="checklist-item__toggle"
+          aria-hidden="true"
+          style={{ pointerEvents: "none" }}
+        >
+          <span className="checklist-item__toggle-label">
+            Why do I need this?
+          </span>
+          <span
+            className={`checklist-item__chevron${expanded ? " checklist-item__chevron--open" : ""}`}
+            style={{ display: "inline-block" }}
+          >
+            ⌄
+          </span>
+        </span>
+      </div>
+      {expanded && (
+        <div className="checklist-item__helper">
+          <p>{helper}</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { PageMeta } from "@/components/content/page-meta";
 import { PageRating } from "@/components/feedback/page-rating";
 import { buttonVariants } from "@/components/ui/button";
 import { familyPayments } from "@/lib/nav-data";
+import { BRAND_NAME } from "@/lib/brand";
 
 const sections = [
   { id: "who", label: "Who can get it" },
@@ -131,7 +132,7 @@ export default function OverviewPage() {
             <h2 className="page__section-title">Manage your payment</h2>
             <p>
               Keep your details up to date through myGov so your payment stays
-              correct. Tell Services Australia within 14 days if your income,
+              correct. Tell {BRAND_NAME} within 14 days if your income,
               relationship status, address, or your child&rsquo;s circumstances
               change.
             </p>

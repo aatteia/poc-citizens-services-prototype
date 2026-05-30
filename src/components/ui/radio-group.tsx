@@ -7,7 +7,7 @@ import { Radio as BaseRadio } from "@base-ui/react/radio";
 import { cn } from "@/lib/utils";
 
 /**
- * RadioGroup — base-ui RadioGroup with SA defaults.
+ * RadioGroup — base-ui RadioGroup with project defaults.
  *
  * Composition pattern:
  *   <RadioGroup value={...} onValueChange={...}>
@@ -34,7 +34,7 @@ export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
 
 /**
  * The visual radio dot rendered on its own — 20×20, 1.5px border,
- * solid SA-navy ring when selected. Used inside <RadioCard> tile rows.
+ * solid navy ring when selected. Used inside <RadioCard> tile rows.
  */
 export const RadioDot = React.forwardRef<
   HTMLSpanElement,
