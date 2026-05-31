@@ -128,6 +128,18 @@
   --header-height: 196px;
 }
 
+/* Responsive header height — the nav strips collapse into the hamburger at
+   1024px (band only ≈ 96px), and the band itself shrinks at 768px (≈ 64px).
+   Keeping --header-height in step means every sticky offset that relies on it
+   (the prepare progress bar, anchor scroll-padding) stays aligned to the real
+   header at each breakpoint. Declared unlayered to match the :root base above. */
+@media (max-width: 1024px) {
+  :root { --header-height: 96px; }
+}
+@media (max-width: 768px) {
+  :root { --header-height: 64px; }
+}
+
 /* =============================================================================
    Layer 2 — theme: shadcn semantic tokens bound to navy primary + neutral ramps
    Block shape matches html[data-theme="health|nsw|civictheme"] in
