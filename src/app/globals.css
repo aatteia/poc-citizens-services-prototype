@@ -1533,13 +1533,26 @@ html[data-theme="sa"].dark {
     margin: 0 auto;
   }
 
-  /* Sticky progress wrapper — sits below the sticky site header */
+  /* Sticky progress wrapper — sits below the sticky site header, and rides up
+     with it when the header hides on scroll-down (see the :has rule below). */
   .prepare__progress-wrap {
     position: sticky;
     top: var(--header-height);
     z-index: 40;
     background: var(--background);
     border-bottom: 1px solid var(--border);
+    transition: top 0.25s ease;
+  }
+  body:has(.site-header[data-hidden="true"]) .prepare__progress-wrap {
+    top: 0;
+  }
+  /* Match the header: no slide animation when reduced motion is requested. */
+  @media (prefers-reduced-motion: reduce) {
+    .prepare__progress-wrap,
+    .side-rail,
+    .page__sidebar {
+      transition: none;
+    }
   }
   .prepare__progress-inner {
     max-width: 768px;
