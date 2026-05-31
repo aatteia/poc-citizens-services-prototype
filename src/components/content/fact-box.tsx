@@ -21,7 +21,7 @@ export function FactBox({ title, children }: FactBoxProps) {
 interface FactBoxItemProps {
   label: string;
   value: ReactNode;
-  caption?: string;
+  caption?: ReactNode;
 }
 
 export function FactBoxItem({ label, value, caption }: FactBoxItemProps) {

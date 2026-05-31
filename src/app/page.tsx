@@ -42,8 +42,8 @@ export default function OverviewPage() {
             <h1 className="page__title">Parenting Payment</h1>
             <p className="page__intro">
               Parenting Payment is income support for the main carer of a young
-              child. Use this short check to see if you may be eligible — it
-              takes about two minutes and your answers won&rsquo;t be kept once
+              child. Use this short check to see if you may be eligible. It
+              takes about two minutes, and your answers aren&rsquo;t saved once
               you close this tab.
             </p>
 
@@ -108,8 +108,9 @@ export default function OverviewPage() {
             </p>
             <p>
               Use the eligibility check above to see whether you may qualify,
-              then use the Payment and Service Finder to estimate your specific
-              fortnightly amount.
+              then use the{" "}
+              <Link href="#">Payment and Service Finder</Link> to estimate your
+              specific fortnightly amount.
             </p>
           </section>
 

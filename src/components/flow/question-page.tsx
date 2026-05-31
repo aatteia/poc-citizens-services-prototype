@@ -159,7 +159,7 @@ export function QuestionPage({ step }: QuestionPageProps) {
           <div className="flow__actions">
             <Link
               href={backHref}
-              className={buttonVariants({ variant: "tertiary", size: "lg" })}
+              className={buttonVariants({ variant: "secondary", size: "lg" })}
               aria-label={backLabel}
             >
               <span aria-hidden="true">←</span> {backLabel}

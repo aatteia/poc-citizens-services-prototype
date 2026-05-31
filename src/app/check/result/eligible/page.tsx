@@ -90,8 +90,8 @@ export default function EligibleResult() {
               title="Based on your answers, you may be eligible for Parenting Payment."
             >
               <p>
-                This isn&rsquo;t a guarantee — {BRAND_NAME} will check the
-                full details when you claim through myGov.
+                This isn&rsquo;t a guarantee. {BRAND_NAME} checks the full
+                details when you claim through myGov.
               </p>
             </StatusBanner>
 
@@ -104,7 +104,13 @@ export default function EligibleResult() {
                   <FactBoxItem
                     label="Estimated fortnightly payment"
                     value="Up to $1,096.10"
-                    caption="The actual amount depends on your income and family circumstances. You can estimate it more accurately with the Payment and Service Finder."
+                    caption={
+                      <>
+                        The actual amount depends on your income and family
+                        circumstances. For a more accurate estimate, use the{" "}
+                        <Link href="#">Payment and Service Finder</Link>.
+                      </>
+                    }
                   />
                 </FactBoxList>
               </FactBox>
@@ -118,8 +124,12 @@ export default function EligibleResult() {
                 steps={[
                   {
                     title: "Create or sign in to myGov",
-                    description:
-                      "If you don't already have a myGov account, set one up at my.gov.au.",
+                    description: (
+                      <>
+                        If you don&rsquo;t already have a myGov account, set one
+                        up at <Link href="#">my.gov.au</Link>.
+                      </>
+                    ),
                   },
                   {
                     title: "Link Centrelink to your myGov",

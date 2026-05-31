@@ -42,9 +42,9 @@ export default function CarerOverviewPage() {
             <h1 className="page__title">Carer Payment</h1>
             <p className="page__intro">
               Carer Payment is income support for people who provide constant
-              daily care for someone with a severe disability, medical
-              condition, or who is frail due to age. Use this short check to
-              see if you may be eligible &mdash; it takes about two minutes.
+              daily care for someone with a severe disability, a medical
+              condition, or who is frail aged. Use this short check to see if
+              you may be eligible. It takes about two minutes.
             </p>
 
             <div className="page__cta-row">
@@ -89,9 +89,9 @@ export default function CarerOverviewPage() {
             <h2 className="page__section-title">Who can get it</h2>
             <p>
               You can get Carer Payment if you provide constant care for an
-              adult or child with a severe disability, medical condition, or
+              adult or child with a severe disability, a medical condition, or
               who is frail aged. The care you give must be daily and
-              significant &mdash; not occasional help.
+              significant, not just occasional help.
             </p>
             <p>
               You also need to meet the residency rules and the income and
@@ -109,9 +109,9 @@ export default function CarerOverviewPage() {
               income if you have one.
             </p>
             <p>
-              Use the Payment and Service Finder to estimate your specific
-              fortnightly amount once you&rsquo;ve gathered your income
-              details.
+              Once you&rsquo;ve gathered your income details, use the{" "}
+              <Link href="#">Payment and Service Finder</Link> to estimate your
+              specific fortnightly amount.
             </p>
           </section>
 
@@ -137,8 +137,8 @@ export default function CarerOverviewPage() {
               Keep your details up to date through myGov so your payment
               stays correct. Tell {BRAND_NAME} within 14 days if your
               income, relationship status, address, or the care situation
-              changes &mdash; for example, if the person you care for is
-              admitted to hospital for more than 25 hours in a week.
+              changes. This includes when the person you care for goes into
+              hospital for more than 25 hours in a week.
             </p>
           </section>
 

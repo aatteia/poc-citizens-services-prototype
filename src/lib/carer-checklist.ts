@@ -71,7 +71,7 @@ export const carerChecklist: readonly ChecklistGroupConfig[] = [
         id: 4,
         label: "Bank account details (BSB and account number)",
         helper:
-          "Carer Payment is paid into an Australian bank account in your name. Have your BSB and account number ready — you'll find these in your banking app or on a bank statement.",
+          "Carer Payment is paid into an Australian bank account in your name. Have your BSB and account number ready. You'll find these in your banking app or on a bank statement.",
       },
     ],
   },
@@ -99,7 +99,7 @@ export const carerChecklist: readonly ChecklistGroupConfig[] = [
         id: 7,
         label: "Medical evidence of their condition",
         helper:
-          "You'll need a completed Treating Health Professional (THP) form from their doctor or specialist. Centrelink will send you the form after you start your claim — you don't need it before you begin, but arranging it early reduces delays. Allow 2–4 weeks for a specialist to complete it.",
+          "You'll need a completed Treating Health Professional (THP) form from their doctor or specialist. Centrelink sends you the form after you start your claim, so you don't need it before you begin. Arranging it early reduces delays, as a specialist can take 2 to 4 weeks to complete it.",
       },
     ],
   },
@@ -121,7 +121,7 @@ export const carerChecklist: readonly ChecklistGroupConfig[] = [
         id: 9,
         label: "Details of any other income (investments, rental, etc.)",
         helper:
-          "Declare all income sources — bank interest, share dividends, rental income, and any other regular payments. You don't need to include the care receiver's income unless they are your partner.",
+          "Declare all income sources: bank interest, share dividends, rental income, and any other regular payments. You don't need to include the care receiver's income unless they are your partner.",
       },
       {
         id: 10,
@@ -143,7 +143,7 @@ export const carerChecklist: readonly ChecklistGroupConfig[] = [
         id: 11,
         label: "Your daily care routine (prepared description)",
         helper:
-          "You'll be asked to describe the care you provide in a typical day — what tasks you help with, how long it takes, and whether anyone else shares the care. Writing a brief summary before you start will make this section faster to complete.",
+          "You'll be asked to describe the care you provide in a typical day: what tasks you help with, how long it takes, and whether anyone else shares the care. Writing a brief summary before you start will make this section faster to complete.",
       },
       {
         id: 12,
