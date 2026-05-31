@@ -2,15 +2,15 @@
 
 import { Menu } from "lucide-react";
 
-import { MOBILE_MENU_EVENT } from "@/components/nav/side-rail";
+import { MOBILE_MENU_EVENT } from "@/components/layout/mobile-menu";
 
 /**
- * Hamburger button that dispatches `sa:open-menu` for the SideRail drawer
- * to handle. Hidden on desktop via CSS — the desktop user has the full
- * left rail, primary, and secondary nav strips inline.
+ * Hamburger button that dispatches `sa:open-menu` for the layout-level
+ * <MobileMenu /> to handle. Hidden on desktop via CSS — the desktop user has
+ * the full utility cluster plus the primary/secondary nav strips inline.
  *
- * If the current page doesn't render a <SideRail />, the button still
- * dispatches but nothing listens, which is a graceful no-op.
+ * The menu is rendered once at the layout level, so this works on every
+ * route regardless of whether the page renders a <SideRail />.
  */
 export function MobileMenuButton() {
   return (

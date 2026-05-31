@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { ListenBar } from "@/components/layout/listen-bar";
+import { MobileMenu } from "@/components/layout/mobile-menu";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ToolRail } from "@/components/layout/tool-rail";
@@ -74,6 +75,7 @@ export default function RootLayout({
           Skip to main content
         </a>
         <SiteHeader />
+        <MobileMenu />
         <main id="main" tabIndex={-1} className="flex-1">
           {children}
         </main>

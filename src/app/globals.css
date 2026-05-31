@@ -417,6 +417,15 @@ html[data-theme="sa"].dark {
     position: sticky;
     top: 0;
     z-index: 50;
+    transition: transform 0.25s ease;
+    will-change: transform;
+  }
+  /* Sticky-reveal: slide the masthead out of view while scrolling down. */
+  .site-header[data-hidden="true"] {
+    transform: translateY(-100%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .site-header { transition: none; }
   }
   .site-header__band {
     max-width: var(--container-max);
@@ -575,6 +584,11 @@ html[data-theme="sa"].dark {
     align-items: stretch;
     gap: 0;
     height: 36px;
+    /* Prefer 220px but allow the field to shrink as the cluster runs out of
+       room near the 1024px breakpoint, so it degrades gracefully instead of
+       forcing an overflow. */
+    flex: 0 1 220px;
+    min-width: 0;
     border: 1px solid var(--header-fg);
     border-radius: 4px;
     overflow: hidden;
@@ -587,7 +601,9 @@ html[data-theme="sa"].dark {
     outline: 0;
     background: transparent;
     padding: 0 14px;
-    width: 220px;
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
     font-family: var(--font-sans);
     font-size: 14px;
     color: var(--foreground);
@@ -598,6 +614,7 @@ html[data-theme="sa"].dark {
     background: transparent;
     color: var(--header-fg);
     padding: 0 10px;
+    flex: none;
     cursor: pointer;
     display: grid;
     place-items: center;
@@ -610,6 +627,8 @@ html[data-theme="sa"].dark {
     gap: 8px;
     height: 36px;
     padding: 0 14px;
+    flex: none;
+    white-space: nowrap;
     border: 1px solid var(--header-fg);
     border-radius: var(--radius-pill);
     background: #FFFFFF;
@@ -750,6 +769,8 @@ html[data-theme="sa"].dark {
     gap: 8px;
     height: 36px;
     padding: 0 18px;
+    flex: none;
+    white-space: nowrap;
     border: 1px solid #000;
     border-radius: var(--radius-pill);
     background: #000;
@@ -1057,21 +1078,27 @@ html[data-theme="sa"].dark {
   }
 
   /* Mobile shell tweaks */
-  @media (max-width: 768px) {
-    .site-header__band { min-height: 64px; padding: 10px var(--container-pad); gap: 12px; }
-    .site-header__wordmark { gap: 10px; }
-    .site-header__logo { height: 40px; }
-    .site-header__brand { font-size: 16px; line-height: 20px; }
-
-    /* Hide all of the utility cluster on mobile — it's replaced by a single
-       hamburger that opens a drawer (built in a later task). The "Menu" /
-       search / dark-mode toggle move inside that drawer. */
+  /* Collapse the header to its hamburger at 1024px — the same breakpoint the
+     page grid, side-rail, and mobile drawer already use. Above this width the
+     full utility cluster (theme toggle + search + myGov + Sign in ≈ 700px)
+     plus the wordmark needs ~1000px+; collapsing here avoids the cramped
+     769–1024px overlap and keeps the drawer-bound side nav reachable. */
+  @media (max-width: 1024px) {
+    /* Hide all of the utility cluster — it's replaced by a single hamburger
+       that opens the mobile drawer. The search / theme toggle move inside. */
     .site-header__utility { display: none; }
     .site-header__menu { display: inline-flex; }
 
     /* Nav strips collapse into the mobile drawer too. */
     .site-nav-primary,
     .site-nav-secondary { display: none; }
+  }
+
+  @media (max-width: 768px) {
+    .site-header__band { min-height: 64px; padding: 10px var(--container-pad); gap: 12px; }
+    .site-header__wordmark { gap: 10px; }
+    .site-header__logo { height: 40px; }
+    .site-header__brand { font-size: 16px; line-height: 20px; }
 
     .site-footer__grid { grid-template-columns: 1fr; gap: 32px; }
     .site-footer__inner { padding: 40px var(--container-pad) 32px; }
@@ -1876,6 +1903,7 @@ html[data-theme="sa"].dark {
     align-self: start;
     border-left: 1px solid var(--border);
     padding-left: 24px;
+    transition: top 0.25s ease;
   }
   .page__sidebar-title {
     font-family: var(--font-heading);
@@ -2200,6 +2228,12 @@ html[data-theme="sa"].dark {
     align-self: start;
     border-top: 4px solid var(--primary);
     background: var(--card);
+    transition: top 0.25s ease;
+  }
+
+  body:has(.site-header[data-hidden="true"]) .side-rail,
+  body:has(.site-header[data-hidden="true"]) .page__sidebar {
+    top: 16px;
   }
   .side-rail__back {
     display: inline-flex;
@@ -2430,6 +2464,151 @@ html[data-theme="sa"].dark {
 
   /* Inside the drawer, the rail items should not show the desktop top accent. */
   .mobile-drawer__panel .side-rail__back { border-top: 0; }
+
+  /* ===== Consolidated mobile menu content =====
+     Carries everything the cyan band drops at ≤1024px: search, account
+     actions, myGov portals, primary/secondary nav, in-section links, and the
+     theme/help settings row. */
+  .mobile-menu__body {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 24px;
+  }
+
+  /* Search — full-width pill at the top of the menu. */
+  .mobile-menu__search {
+    display: flex;
+    align-items: stretch;
+    height: 44px;
+    margin: 16px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--card);
+    transition: border-color 120ms linear;
+  }
+  .mobile-menu__search:focus-within {
+    border-color: var(--ring);
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  .mobile-menu__search-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    padding: 0 14px;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    color: var(--foreground);
+  }
+  .mobile-menu__search-input::placeholder { color: var(--muted-foreground); }
+  .mobile-menu__search-button {
+    flex: none;
+    border: 0;
+    background: transparent;
+    color: var(--foreground);
+    padding: 0 12px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+  }
+
+  /* Account actions — Sign in primary, Create account secondary. */
+  .mobile-menu__account {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 16px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .mobile-menu__signin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 22px;
+    flex: none;
+    white-space: nowrap;
+    border-radius: var(--radius-pill);
+    background: #000;
+    color: #FFF;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+  }
+  .mobile-menu__signin:hover { background: #1A1A1A; color: #FFF; text-decoration: none; }
+  .mobile-menu__account-link {
+    color: var(--fg-link);
+    font-size: 15px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Grouped nav sections, each separated by a hairline. */
+  .mobile-menu__group {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .mobile-menu__group-title {
+    margin: 0;
+    padding: 4px 16px 8px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted-foreground);
+  }
+  .mobile-menu__group-title .site-header__mygov-logo {
+    text-transform: none;
+    font-size: 15px;
+    color: var(--foreground);
+  }
+  .mobile-menu__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .mobile-menu__link {
+    display: block;
+    padding: 12px 16px;
+    color: var(--foreground);
+    font-size: 16px;
+    line-height: 22px;
+    text-decoration: none;
+  }
+  .mobile-menu__link:hover { background: var(--secondary); }
+  .mobile-menu__link[aria-current="page"] {
+    font-weight: 700;
+    box-shadow: inset 3px 0 0 var(--primary);
+    background: var(--secondary);
+  }
+  .mobile-menu__link:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: -2px;
+  }
+
+  /* Settings footer — theme toggle + help, no trailing divider. */
+  .mobile-menu__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 16px 4px;
+  }
+  /* The theme toggle borrows header colours; recolour it for the light panel. */
+  .mobile-menu__footer .theme-toggle {
+    border-color: var(--border);
+    color: var(--foreground);
+  }
+  .mobile-menu__footer .theme-toggle__half[data-active="true"] {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
 
   /* ===== Sticky mobile Listen bar ===== */
   .listen-bar {

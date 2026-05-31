@@ -4,6 +4,12 @@
  * within a given section.
  */
 
+export type SideRailItem = {
+  label: string;
+  href: string;
+  current?: boolean;
+};
+
 export const familyPayments = [
   { label: "Parenting Payment", href: "/", current: true },
   { label: "Family Tax Benefit", href: "#" },

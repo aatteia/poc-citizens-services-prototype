@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Search } from "lucide-react";
@@ -8,6 +9,12 @@ import { MobileMenuButton } from "@/components/layout/mobile-menu-button";
 import { MyGovDropdown } from "@/components/layout/mygov-dropdown";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { BRAND_NAME } from "@/lib/brand";
+import {
+  currentNavLabel,
+  primaryNav,
+  secondaryNav,
+  SECONDARY_NAV_SECTION,
+} from "@/lib/site-nav";
 
 /**
  * Header chrome (2026 gov redesign pattern):
@@ -16,76 +23,77 @@ import { BRAND_NAME } from "@/lib/brand";
  *   row 2 (white):   primary nav   — Individuals · Design system
  *   row 3 (white-2): secondary nav — Families · Carers active by route
  *
- * The nav is simplified to interactive items only (no inert/disabled
- * entries). Both Families and Carers live under Individuals; the Design
- * system showcase is surfaced as its own primary item.
+ * The nav model and active-state resolution live in src/lib/site-nav.ts so
+ * the desktop header and the layout-level <MobileMenu /> stay in sync.
  *
- * Active-state logic (exactly one current item per nav):
- *   - An item is current when its `matches` hit the pathname.
- *   - If no primary item matches, the `defaultCurrent` item (Individuals)
- *     is current. This is what keeps Individuals lit on `/`, `/check/**`
- *     and `/carers/**` while letting Design system take over on
- *     `/components/**` without both showing aria-current.
- *   - The secondary strip belongs to the Individuals section only, so it
- *     is hidden whenever the Design system section is active.
+ * At ≤1024px the whole utility cluster and both nav strips collapse into the
+ * mobile menu (opened by <MobileMenuButton />) — see globals.css.
  */
 
-type NavItem = {
-  label: string;
-  href: string;
-  matches?: readonly string[];
-  /** Current when nothing else in the same nav matches the pathname. */
-  defaultCurrent?: boolean;
-};
-
-const primaryNav: readonly NavItem[] = [
-  { label: "Individuals", href: "/", defaultCurrent: true },
-  { label: "Design system", href: "/components", matches: ["/components"] },
-];
-
-const secondaryNav: readonly NavItem[] = [
-  { label: "Families", href: "/", matches: ["/", "/check"] },
-  { label: "Carers", href: "/carers", matches: ["/carers"] },
-];
-
-/** Primary section that owns the Families/Carers secondary strip. */
-const SECONDARY_NAV_SECTION = "Individuals";
-
-function matchesPathname(
-  matches: readonly string[] | undefined,
-  pathname: string,
-) {
-  if (!matches) return false;
-  return matches.some((m) => {
-    if (m === "/") return pathname === "/";
-    return pathname === m || pathname.startsWith(m + "/");
-  });
-}
+/** Below this scroll position the header is always shown (covers the masthead's own height). */
+const REVEAL_ZONE = 120;
+/** Ignore scroll jitter smaller than this before changing visibility. */
+const SCROLL_DELTA = 6;
 
 /**
- * Resolve which item in a nav is current. An explicit `matches` hit wins;
- * otherwise the `defaultCurrent` item is the fallback. Returns the label
- * of the current item (or null) so callers can both set aria-current and
- * decide section-dependent rendering.
+ * Hide the sticky header while scrolling down, reveal it while scrolling up
+ * (the "sticky reveal" pattern). Reclaims vertical space on short screens
+ * without removing any navigation — an upward flick brings it back.
+ *
+ * Returns a `hidden` flag plus a `reveal` callback so keyboard users tabbing
+ * into header controls always pull it back into view.
  */
-function currentNavLabel(
-  items: readonly NavItem[],
-  pathname: string,
-): string | null {
-  const matched = items.find((item) => matchesPathname(item.matches, pathname));
-  if (matched) return matched.label;
-  return items.find((item) => item.defaultCurrent)?.label ?? null;
+function useHideOnScroll() {
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
+  const ticking = useRef(false);
+
+  useEffect(() => {
+    lastY.current = window.scrollY;
+
+    const update = () => {
+      const y = window.scrollY;
+      const delta = y - lastY.current;
+
+      if (Math.abs(delta) > SCROLL_DELTA) {
+        if (y <= REVEAL_ZONE || delta < 0) {
+          setHidden(false);
+        } else {
+          setHidden(true);
+        }
+        lastY.current = y;
+      }
+      ticking.current = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking.current) {
+        ticking.current = true;
+        window.requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return { hidden, reveal: () => setHidden(false) };
 }
 
 export function SiteHeader() {
   const pathname = usePathname() ?? "/";
+  const { hidden, reveal } = useHideOnScroll();
 
   const currentPrimary = currentNavLabel(primaryNav, pathname);
   const currentSecondary = currentNavLabel(secondaryNav, pathname);
   const showSecondaryNav = currentPrimary === SECONDARY_NAV_SECTION;
 
   return (
-    <header className="site-header">
+    <header
+      className="site-header"
+      data-hidden={hidden ? "true" : undefined}
+      onFocusCapture={reveal}
+    >
       {/* ===== Row 1: cyan band ===== */}
       <div className="site-header__band">
         <Link
