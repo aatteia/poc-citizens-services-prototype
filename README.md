@@ -2,7 +2,7 @@
 
 A Services Australia–branded government portal demonstrating two complete citizen-facing flows: a Parenting Payment eligibility check and a Carer Payment prepare-to-claim checklist. Built to interview and portfolio standard.
 
-**Live demo:** _coming soon_
+**Live demo:** https://poc-citizens-services-prototype.vercel.app
 **GitHub:** https://github.com/aatteia/poc-citizens-services-prototype
 **Component reference:** `/components` — every component in every state, with accessibility and design notes
 
