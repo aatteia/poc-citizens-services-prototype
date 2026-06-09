@@ -1,12 +1,22 @@
 {
-  "name": "poc-sa-parenting-eligibility",
+  "name": "poc-citizens-services-prototype",
   "description": "",
-  "directory": "/Users/aatteia/working/poc-sa-parenting-eligibility",
+  "directory": "/Users/adamatteia/working/poc-citizens-services-prototype",
   "skills": [
+    "technical-writing",
     "tailwindcss-development",
-    "frontend-design",
+    "stripe-integration",
+    "automatic-refactoring",
+    "automatic-documentation",
+    "automatic",
+    "automatic-debugging",
+    "prisma-development",
+    "nextauth",
     "vercel-react-best-practices",
-    "automatic"
+    "prisma-orm",
+    "design-systems",
+    "automatic-code-review",
+    "automatic-testing"
   ],
   "mcp_servers": [
     "automatic"
@@ -16,30 +26,100 @@
     "claude"
   ],
   "tools": [],
-  "created_at": "2026-05-24T02:26:24.515Z",
-  "updated_at": "2026-05-24T02:26:43.731Z",
-  "last_activity": "2026-05-24T05:56:44.247841+00:00",
-  "created_by": "local_56534651131742099e96f0798298b104",
+  "created_at": "2026-05-30T14:13:42.291Z",
+  "updated_at": "2026-05-30T22:31:59.017661+00:00",
+  "last_activity": "2026-05-31T07:48:27.876261+00:00",
   "instruction_mode": "per-agent",
   "instruction_file_hashes": {
-    "CLAUDE.md": "b24d53e3054a6f1c"
+    "CLAUDE.md": "181c62924ea1c1d1"
   },
-  "custom_commands": [],
-  "custom_skills": [],
+  "custom_skills": [
+    {
+      "name": "frontend-design",
+      "content": "---\nname: frontend-design\ndescription: Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics.\nlicense: Complete terms in LICENSE.txt\n---\n\nThis skill guides creation of distinctive, production-grade frontend interfaces that avoid generic \"AI slop\" aesthetics. Implement real working code with exceptional attention to aesthetic details and creative choices.\n\nThe user provides frontend requirements: a component, page, application, or interface to build. They may include context about the purpose, audience, or technical constraints.\n\n## Design Thinking\n\nBefore coding, understand the context and commit to a BOLD aesthetic direction:\n- **Purpose**: What problem does this interface solve? Who uses it?\n- **Tone**: Pick an extreme: brutally minimal, maximalist chaos, retro-futuristic, organic/natural, luxury/refined, playful/toy-like, editorial/magazine, brutalist/raw, art deco/geometric, soft/pastel, industrial/utilitarian, etc. There are so many flavors to choose from. Use these for inspiration but design one that is true to the aesthetic direction.\n- **Constraints**: Technical requirements (framework, performance, accessibility).\n- **Differentiation**: What makes this UNFORGETTABLE? What's the one thing someone will remember?\n\n**CRITICAL**: Choose a clear conceptual direction and execute it with precision. Bold maximalism and refined minimalism both work - the key is intentionality, not intensity.\n\nThen implement working code (HTML/CSS/JS, React, Vue, etc.) that is:\n- Production-grade and functional\n- Visually striking and memorable\n- Cohesive with a clear aesthetic point-of-view\n- Meticulously refined in every detail\n\n## Frontend Aesthetics Guidelines\n\nFocus on:\n- **Typography**: Choose fonts that are beautiful, unique, and interesting. Avoid generic fonts like Arial and Inter; opt instead for distinctive choices that elevate the frontend's aesthetics; unexpected, characterful font choices. Pair a distinctive display font with a refined body font.\n- **Color & Theme**: Commit to a cohesive aesthetic. Use CSS variables for consistency. Dominant colors with sharp accents outperform timid, evenly-distributed palettes.\n- **Motion**: Use animations for effects and micro-interactions. Prioritize CSS-only solutions for HTML. Use Motion library for React when available. Focus on high-impact moments: one well-orchestrated page load with staggered reveals (animation-delay) creates more delight than scattered micro-interactions. Use scroll-triggering and hover states that surprise.\n- **Spatial Composition**: Unexpected layouts. Asymmetry. Overlap. Diagonal flow. Grid-breaking elements. Generous negative space OR controlled density.\n- **Backgrounds & Visual Details**: Create atmosphere and depth rather than defaulting to solid colors. Add contextual effects and textures that match the overall aesthetic. Apply creative forms like gradient meshes, noise textures, geometric patterns, layered transparencies, dramatic shadows, decorative borders, custom cursors, and grain overlays.\n\nNEVER use generic AI-generated aesthetics like overused font families (Inter, Roboto, Arial, system fonts), cliched color schemes (particularly purple gradients on white backgrounds), predictable layouts and component patterns, and cookie-cutter design that lacks context-specific character.\n\nInterpret creatively and make unexpected choices that feel genuinely designed for the context. No design should be the same. Vary between light and dark themes, different fonts, different aesthetics. NEVER converge on common choices (Space Grotesk, for example) across generations.\n\n**IMPORTANT**: Match implementation complexity to the aesthetic vision. Maximalist designs need elaborate code with extensive animations and effects. Minimalist or refined designs need restraint, precision, and careful attention to spacing, typography, and subtle details. Elegance comes from executing the vision well.\n\nRemember: Claude is capable of extraordinary creative work. Don't hold back, show what can truly be created when thinking outside the box and committing fully to a distinctive vision.\n"
+    }
+  ],
   "instructions_index_mode": false,
   "skill_sources": {
+    "automatic-code-review": {
+      "source": "automatic/automatic-app",
+      "id": "automatic/automatic-app/automatic-code-review",
+      "kind": "bundled"
+    },
+    "stripe-integration": {
+      "source": "sickn33/antigravity-awesome-skills",
+      "id": "sickn33/antigravity-awesome-skills/stripe-integration",
+      "kind": "github",
+      "installed_sha": "604182ecf700d072ea45ea7a4a648c8114eda8bcccaf7573afdf2b14be8f9ab2",
+      "installed_at": "2026-05-30T12:04:15.244095+00:00"
+    },
+    "technical-writing": {
+      "source": "mindrally/skills",
+      "id": "mindrally/skills/technical-writing",
+      "kind": "github",
+      "installed_sha": "88012430e22bf7bc21308a185b5a5a4ed6ffba73792a3b25cec59dd135717c7c",
+      "installed_at": "2026-05-30T11:56:27.569359+00:00"
+    },
+    "nextauth": {
+      "source": "claude-dev-suite/claude-dev-suite",
+      "id": "claude-dev-suite/claude-dev-suite/nextauth",
+      "kind": "github",
+      "installed_sha": "af336a3d501526a3c6c4a7a06ca430172f5777782dd8aebe903f2241cc7d0731",
+      "installed_at": "2026-05-30T12:04:07.152542+00:00"
+    },
+    "automatic-debugging": {
+      "source": "automatic/automatic-app",
+      "id": "automatic/automatic-app/automatic-debugging",
+      "kind": "bundled"
+    },
+    "prisma-development": {
+      "source": "mindrally/skills",
+      "id": "mindrally/skills/prisma-development",
+      "kind": "github",
+      "installed_sha": "e2335183830149d6b1646a39b5facf469174c0237672dae9a130890928ed1624",
+      "installed_at": "2026-05-30T12:04:12.110172+00:00"
+    },
+    "design-systems": {
+      "source": "refoundai/lenny-skills",
+      "id": "refoundai/lenny-skills/design-systems",
+      "kind": "github",
+      "installed_sha": "ba19c00de7286d6c8abedb79f08e747a85fcfb5f1e15e12bab8fee0298385e2d",
+      "installed_at": "2026-05-30T11:56:24.529452+00:00"
+    },
+    "automatic-testing": {
+      "source": "automatic/automatic-app",
+      "id": "automatic/automatic-app/automatic-testing",
+      "kind": "bundled"
+    },
+    "automatic-documentation": {
+      "source": "automatic/automatic-app",
+      "id": "automatic/automatic-app/automatic-documentation",
+      "kind": "bundled"
+    },
+    "prisma-orm": {
+      "source": "bobmatnyc/claude-mpm-skills",
+      "id": "bobmatnyc/claude-mpm-skills/prisma-orm",
+      "kind": "github",
+      "installed_sha": "d1ec536c13e4ee215e14586d6201cc8b006deac9cbd9a1fa8cf616faf9e4070c",
+      "installed_at": "2026-05-30T12:04:51.418684+00:00"
+    },
+    "automatic-refactoring": {
+      "source": "automatic/automatic-app",
+      "id": "automatic/automatic-app/automatic-refactoring",
+      "kind": "bundled"
+    },
     "automatic": {
       "source": "automatic/automatic-app",
       "id": "automatic/automatic-app/automatic",
       "kind": "bundled"
-    },
-    "frontend-design": {
-      "source": "anthropics/skills",
-      "id": "anthropics/skills/frontend-design",
-      "kind": "github"
     }
   },
   "skill_collections": {
+    "automatic-documentation": "automatic-skills",
+    "automatic-refactoring": "automatic-skills",
+    "automatic-code-review": "automatic-skills",
+    "automatic-debugging": "automatic-skills",
+    "automatic-testing": "automatic-skills",
     "automatic": "automatic-skills"
   },
   "mcp_server_specs": {

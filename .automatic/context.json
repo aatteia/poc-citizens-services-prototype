@@ -1,0 +1,84 @@
+{
+  "commands": {
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "eslint",
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
+  },
+  "concepts": {
+    "Carer Checklist": {
+      "files": [
+        "src/lib/carer-checklist.ts",
+        "src/app/carers/",
+        "src/components/checklist/"
+      ],
+      "summary": "Prepare-to-claim checklist for Carer Payment. Four sections, twelve items, per-section requiredCount readiness model. Content in carer-checklist.ts; UI in components/checklist/."
+    },
+    "Check Flow Pages": {
+      "files": [
+        "src/app/check/",
+        "src/components/flow/",
+        "src/components/feedback/"
+      ],
+      "summary": "Six-question Parenting Payment eligibility check. Routes q1-q6 each render QuestionPage. Results at check/result/eligible and check/result/ineligible. Flow state held in FlowProvider context."
+    },
+    "Component Library": {
+      "files": [
+        "src/components/ui/",
+        "src/components/layout/",
+        "src/components/nav/"
+      ],
+      "summary": "Reusable UI primitives and layout components. Built with Base UI React (@base-ui/react), class-variance-authority, and Tailwind CSS v4."
+    },
+    "Design System Reference": {
+      "files": [
+        "src/app/components/page.tsx",
+        "src/app/components/checklist-group-demo.tsx",
+        "src/app/components/library-ui.tsx"
+      ],
+      "summary": "Design system reference page at /components. Every component in every state, with accessibility and design notes. Deliberate portfolio artifact — not a debug page."
+    },
+    "Eligibility Logic": {
+      "files": [
+        "src/lib/eligibility.ts",
+        "src/lib/questions.ts",
+        "bin/test-eligibility.ts"
+      ],
+      "summary": "Parenting Payment eligibility engine. evaluate(answers) is a pure function returning eligible, ineligible (with reason: residency | child-age | income), or null. Branch table documented in eligibility.ts header. Smoke test in bin/test-eligibility.ts."
+    },
+    "Multi-step Flow": {
+      "files": [
+        "src/lib/flow-context.tsx",
+        "src/components/flow/"
+      ],
+      "summary": "FlowProvider: React context + useReducer scoped to the /check layout. Holds answers across question page navigations. Reset action clears all answers."
+    },
+    "Navigation System": {
+      "files": [
+        "src/lib/nav-data.ts",
+        "src/components/nav/"
+      ],
+      "summary": "Side-rail sibling lists (familyPayments, carerPayments) and nav components. Most sibling links are href='#' stubs — only the two primary scenario pages are routed."
+    }
+  },
+  "conventions": {
+    "Component Composition Pattern": "Base UI React primitives for all interactive components (radio groups, disclosure, buttons). No ShadCN. Lucide React for icons. class-variance-authority for variant-driven button APIs.",
+    "CSS Architecture": "Three layers in globals.css: Layer 1 = Attica raw tokens in :root; Layer 2 = html[data-theme='sa'] SA navy theme mapping raws to ShadCN semantic names; Layer 3 = @theme inline Tailwind bridge.",
+    "Logic-UI Separation": "Business logic isolated in src/lib/ (eligibility.ts, questions.ts, carer-checklist.ts); UI components consume via imports. Pure functions only — no side effects in lib/.",
+    "Next.js App Directory Structure": "Next.js App Router with TypeScript strict. src/ contains app/, components/, and lib/. Server Components by default; client components marked with 'use client'.",
+    "Utility-First Styling": "Tailwind CSS v4 with @tailwindcss/postcss. @theme inline bridge (not v3 config file). Utilities composed via clsx and tailwind-merge."
+  },
+  "entry_points": {
+    "app": "src/app/page.tsx",
+    "carers": "src/app/carers/page.tsx",
+    "eligibility-test": "bin/test-eligibility.ts",
+    "layout": "src/app/layout.tsx"
+  },
+  "gotchas": {
+    "Tailwind v4 API": "Uses @tailwindcss/postcss and @theme inline — not the v3 tailwind.config.js pattern. Consult node_modules/next/dist/docs/ for any Next.js API that may differ from training data.",
+    "No persistence": "Eligibility flow answers are in-memory React context (FlowProvider). Checklist state is local useState. Both reset on page refresh — intentional per the brief.",
+    "Base UI not ShadCN": "Components use @base-ui/react primitives directly, not ShadCN wrappers. API differs from standard Radix UI: no asChild prop, data attributes differ.",
+    "SA means Services Australia": "SA in this project refers to Services Australia (the federal agency), not South Australia. The theme is 'sa' (Services Australia navy #1B4F72), not a state government theme."
+  }
+}
