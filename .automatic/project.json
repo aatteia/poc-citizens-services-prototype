@@ -41,12 +41,10 @@
   ],
   "instructions_index_mode": false,
   "skill_sources": {
-    "prisma-orm": {
-      "source": "bobmatnyc/claude-mpm-skills",
-      "id": "bobmatnyc/claude-mpm-skills/prisma-orm",
-      "kind": "github",
-      "installed_sha": "d1ec536c13e4ee215e14586d6201cc8b006deac9cbd9a1fa8cf616faf9e4070c",
-      "installed_at": "2026-05-30T12:04:51.418684+00:00"
+    "automatic": {
+      "source": "automatic/automatic-app",
+      "id": "automatic/automatic-app/automatic",
+      "kind": "bundled"
     },
     "technical-writing": {
       "source": "mindrally/skills",
@@ -55,29 +53,39 @@
       "installed_sha": "88012430e22bf7bc21308a185b5a5a4ed6ffba73792a3b25cec59dd135717c7c",
       "installed_at": "2026-05-30T11:56:27.569359+00:00"
     },
+    "automatic-code-review": {
+      "source": "automatic/automatic-app",
+      "id": "automatic/automatic-app/automatic-code-review",
+      "kind": "bundled"
+    },
     "automatic-refactoring": {
       "source": "automatic/automatic-app",
       "id": "automatic/automatic-app/automatic-refactoring",
       "kind": "bundled"
-    },
-    "stripe-integration": {
-      "source": "sickn33/antigravity-awesome-skills",
-      "id": "sickn33/antigravity-awesome-skills/stripe-integration",
-      "kind": "github",
-      "installed_sha": "604182ecf700d072ea45ea7a4a648c8114eda8bcccaf7573afdf2b14be8f9ab2",
-      "installed_at": "2026-05-30T12:04:15.244095+00:00"
     },
     "automatic-debugging": {
       "source": "automatic/automatic-app",
       "id": "automatic/automatic-app/automatic-debugging",
       "kind": "bundled"
     },
-    "prisma-development": {
-      "source": "mindrally/skills",
-      "id": "mindrally/skills/prisma-development",
+    "automatic-testing": {
+      "source": "automatic/automatic-app",
+      "id": "automatic/automatic-app/automatic-testing",
+      "kind": "bundled"
+    },
+    "prisma-orm": {
+      "source": "bobmatnyc/claude-mpm-skills",
+      "id": "bobmatnyc/claude-mpm-skills/prisma-orm",
       "kind": "github",
-      "installed_sha": "e2335183830149d6b1646a39b5facf469174c0237672dae9a130890928ed1624",
-      "installed_at": "2026-05-30T12:04:12.110172+00:00"
+      "installed_sha": "d1ec536c13e4ee215e14586d6201cc8b006deac9cbd9a1fa8cf616faf9e4070c",
+      "installed_at": "2026-05-30T12:04:51.418684+00:00"
+    },
+    "design-systems": {
+      "source": "refoundai/lenny-skills",
+      "id": "refoundai/lenny-skills/design-systems",
+      "kind": "github",
+      "installed_sha": "ba19c00de7286d6c8abedb79f08e747a85fcfb5f1e15e12bab8fee0298385e2d",
+      "installed_at": "2026-05-30T11:56:24.529452+00:00"
     },
     "automatic-documentation": {
       "source": "automatic/automatic-app",
@@ -91,36 +99,28 @@
       "installed_sha": "af336a3d501526a3c6c4a7a06ca430172f5777782dd8aebe903f2241cc7d0731",
       "installed_at": "2026-05-30T12:04:07.152542+00:00"
     },
-    "design-systems": {
-      "source": "refoundai/lenny-skills",
-      "id": "refoundai/lenny-skills/design-systems",
+    "prisma-development": {
+      "source": "mindrally/skills",
+      "id": "mindrally/skills/prisma-development",
       "kind": "github",
-      "installed_sha": "ba19c00de7286d6c8abedb79f08e747a85fcfb5f1e15e12bab8fee0298385e2d",
-      "installed_at": "2026-05-30T11:56:24.529452+00:00"
+      "installed_sha": "e2335183830149d6b1646a39b5facf469174c0237672dae9a130890928ed1624",
+      "installed_at": "2026-05-30T12:04:12.110172+00:00"
     },
-    "automatic-code-review": {
-      "source": "automatic/automatic-app",
-      "id": "automatic/automatic-app/automatic-code-review",
-      "kind": "bundled"
-    },
-    "automatic-testing": {
-      "source": "automatic/automatic-app",
-      "id": "automatic/automatic-app/automatic-testing",
-      "kind": "bundled"
-    },
-    "automatic": {
-      "source": "automatic/automatic-app",
-      "id": "automatic/automatic-app/automatic",
-      "kind": "bundled"
+    "stripe-integration": {
+      "source": "sickn33/antigravity-awesome-skills",
+      "id": "sickn33/antigravity-awesome-skills/stripe-integration",
+      "kind": "github",
+      "installed_sha": "604182ecf700d072ea45ea7a4a648c8114eda8bcccaf7573afdf2b14be8f9ab2",
+      "installed_at": "2026-05-30T12:04:15.244095+00:00"
     }
   },
   "skill_collections": {
-    "automatic-debugging": "automatic-skills",
-    "automatic-refactoring": "automatic-skills",
-    "automatic-documentation": "automatic-skills",
     "automatic-code-review": "automatic-skills",
+    "automatic-debugging": "automatic-skills",
+    "automatic-testing": "automatic-skills",
     "automatic": "automatic-skills",
-    "automatic-testing": "automatic-skills"
+    "automatic-refactoring": "automatic-skills",
+    "automatic-documentation": "automatic-skills"
   },
   "mcp_server_specs": {
     "automatic": {
